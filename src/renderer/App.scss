@@ -1,0 +1,29 @@
+$primary: #6C95FF;
+$dark: #2D2D2D;
+$muted: #999999;
+
+$theme-colors: (
+  "primary": $primary,
+  "dark": $dark
+);
+
+html, body, #root {
+  overflow-x: hidden;
+  height: 100vh;
+}
+
+.progress-slider {
+  appearance: none;
+  background-color: $muted;
+  overflow: hidden;
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    background-color: $dark;
+    box-shadow: -100vw 0 0 100vw $primary;
+    height: 10px;
+    width: 10px;
+  }
+}
+
+@import "~bootstrap/scss/bootstrap";
