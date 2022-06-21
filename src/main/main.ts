@@ -9,11 +9,15 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, Data } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+
+import Database from './interfaces/database';
+
+import Recolector from './classes/recolector';
 
 export default class AppUpdater {
   constructor() {
@@ -56,7 +60,7 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const createWindow = async () => {
+const createWindow = async (database?: Database) => {
   if (isDebug) {
     await installExtensions();
   }
@@ -71,8 +75,8 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: 1280,
+    height: 720,
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: app.isPackaged
@@ -107,6 +111,13 @@ const createWindow = async () => {
     return { action: 'deny' };
   });
 
+  // Send database content
+  mainWindow.webContents.on('did-finish-load', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('app-database', database);
+    }
+  });
+
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
   new AppUpdater();
@@ -126,8 +137,39 @@ app.on('window-all-closed', () => {
 
 app
   .whenReady()
-  .then(() => {
-    createWindow();
+  .then(async () => {
+    let gamePath: string | null;
+
+    // Check if the database is already created
+    if (Recolector.checkIfDatabaseExists()) {
+      const database = Recolector.getDatabase();
+      // Create the main window
+      createWindow(database);
+    } else {
+      // Repeat until the user does not select a folder or selects the proper game folder
+      while (true) {
+        gamePath = Recolector.selectGameFolder();
+
+        if (!gamePath) {
+          app.exit(0);
+        } else if (Recolector.checkIfCorrectFolder(gamePath)) {
+          // Break the endless cicle (it might not be the better way to do this but I don't really care right now)
+          break;
+        }
+      }
+
+      // Create the database
+      try {
+        const database = await Recolector.createDatabase(gamePath);
+        // Create the main window
+        createWindow(database);
+      } catch (error) {
+        console.warn('Error: ', error);
+
+        app.exit(0);
+      }
+    }
+
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
       // dock icon is clicked and there are no other windows open.
