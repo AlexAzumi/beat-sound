@@ -26,4 +26,14 @@ html, body, #root {
   }
 }
 
+.song-container {
+  transition: all 250ms;
+
+  &:hover {
+    background-color: $primary;
+    cursor: pointer;
+    user-select: none;
+  }
+}
+
 @import "~bootstrap/scss/bootstrap";

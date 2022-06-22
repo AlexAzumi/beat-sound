@@ -1,5 +1,7 @@
 import { FC, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
 
 import Song from '../../main/interfaces/song';
 
@@ -22,16 +24,24 @@ const SongList: FC<SongListProps> = ({ songs }) => {
     <Container className="overflow-auto" fluid={true}>
       {songs.map((item) => {
         return (
-          <Row key={item.id} className="mb-2">
-            <Col className="px-0">
+          <Row key={item.id} className="song-container mb-2">
+            <Col
+              className="d-flex align-items-center justify-content-center"
+              xs={1}
+            >
+              <FontAwesomeIcon icon={faPlayCircle} size="2x" />
+            </Col>
+            <Col className="px-0 text-center" xs={1}>
               <img
                 src={`file://${item.songPath}\\${item.coverFile}`}
-                height={60}
+                width={80}
               />
             </Col>
-            <Col>{item.name}</Col>
-            <Col>{item.artist}</Col>
-            <Col>{getFormatedDuration(item.duration)}</Col>
+            <Col className="d-flex align-items-center">{item.name}</Col>
+            <Col className="d-flex align-items-center">{item.artist}</Col>
+            <Col className="d-flex align-items-center">
+              {getFormatedDuration(item.duration)}
+            </Col>
           </Row>
         );
       })}
