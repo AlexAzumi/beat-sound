@@ -128,7 +128,7 @@ class Recolector {
                   artist: data._songAuthorName,
                   audioFile: data._songFilename,
                   coverFile: data._coverImageFilename,
-                  songPath: songPath,
+                  songPath: folderPath,
                   duration: metadata.format.duration || 0,
                 });
 

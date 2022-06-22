@@ -82,6 +82,7 @@ const createWindow = async (database?: Database) => {
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
+      webSecurity: !isDebug, // Disable web security if dev
     },
   });
 
