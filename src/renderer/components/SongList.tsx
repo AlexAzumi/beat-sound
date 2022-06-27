@@ -7,9 +7,10 @@ import Song from '../../main/interfaces/song';
 
 interface SongListProps {
   songs: Song[];
+  playSong(id: string): void;
 }
 
-const SongList: FC<SongListProps> = ({ songs }) => {
+const SongList: FC<SongListProps> = ({ songs, playSong }) => {
   /**
    * Formats the duration in seconds to `mm:ss`
    */
@@ -24,7 +25,11 @@ const SongList: FC<SongListProps> = ({ songs }) => {
     <Container className="overflow-auto" fluid={true}>
       {songs.map((item) => {
         return (
-          <Row key={item.id} className="song-container mb-2">
+          <Row
+            className="song-container mb-2"
+            key={item.id}
+            onClick={() => playSong(item.id)}
+          >
             <Col
               className="d-flex align-items-center justify-content-center"
               xs={1}
