@@ -7,10 +7,10 @@ import Song from '../../main/interfaces/song';
 
 interface SongListProps {
   songs: Song[];
-  playSong(id: string): void;
+  onPlaySong(id: string): void;
 }
 
-const SongList: FC<SongListProps> = ({ songs, playSong }) => {
+const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
   /**
    * Formats the duration in seconds to `mm:ss`
    */
@@ -28,7 +28,7 @@ const SongList: FC<SongListProps> = ({ songs, playSong }) => {
           <Row
             className="song-container mb-2"
             key={item.id}
-            onClick={() => playSong(item.id)}
+            onClick={() => onPlaySong(item.id)}
           >
             <Col
               className="d-flex align-items-center justify-content-center"

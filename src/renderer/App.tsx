@@ -4,6 +4,7 @@ import SongList from './components/SongList';
 import Panel from './components/Panel';
 
 import Database from '../main/interfaces/database';
+import Song from '../main/interfaces/song';
 
 import './App.scss';
 
@@ -11,8 +12,13 @@ const player = new Audio();
 
 const App: FC = () => {
   const [database, setDatabase] = useState<Database>();
-  const [playerState, setPlayerState] = useState({
+  const [playerState, setPlayerState] = useState<{
+    id: string;
+    songData: Song | null;
+    playing: boolean;
+  }>({
     id: '',
+    songData: null,
     playing: false,
   });
 
@@ -24,12 +30,20 @@ const App: FC = () => {
   const playSong = useCallback(
     (id: string) => {
       setPlayerState({
+        ...playerState,
         id,
         playing: false,
       });
     },
     [database]
   );
+
+  /**
+   * Changes the volume of the player
+   */
+  const changeVolume = useCallback((value: number) => {
+    player.volume = value;
+  }, []);
 
   // Get the database from the main process
   window.electron.ipcRenderer.once('app-database', (data) => {
@@ -57,6 +71,7 @@ const App: FC = () => {
         player.play();
         setPlayerState({
           ...playerState,
+          songData: selectedSong,
           playing: true,
         });
         oldId.current = playerState.id;
@@ -70,9 +85,9 @@ const App: FC = () => {
 
   return (
     <div className="d-flex flex-column vh-100 px-0">
-      <SongList songs={database.songs} playSong={playSong} />
+      <SongList songs={database.songs} onPlaySong={playSong} />
 
-      <Panel />
+      <Panel currentSong={playerState.songData} onChangeVolume={changeVolume} />
     </div>
   );
 };
