@@ -36,13 +36,13 @@ const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
             >
               <FontAwesomeIcon icon={faPlayCircle} size="2x" />
             </Col>
-            <Col className="px-0 text-center" xs={1}>
+            <Col className="d-flex align-items-center">
               <img
                 src={`file://${item.songPath}\\${item.coverFile}`}
-                width={80}
+                width={60}
               />
+              {item.name}
             </Col>
-            <Col className="d-flex align-items-center">{item.name}</Col>
             <Col className="d-flex align-items-center">{item.artist}</Col>
             <Col className="d-flex align-items-center">
               {getFormatedDuration(item.duration)}
