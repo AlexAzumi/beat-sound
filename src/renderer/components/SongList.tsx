@@ -38,6 +38,7 @@ const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
             </Col>
             <Col className="d-flex align-items-center">
               <img
+                className="me-3"
                 src={`file://${item.songPath}\\${item.coverFile}`}
                 width={60}
               />

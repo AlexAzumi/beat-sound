@@ -11,11 +11,12 @@ const player = new Audio();
 
 const App: FC = () => {
   const [database, setDatabase] = useState<Database>();
+  // Player state
   const [isPlaying, setIsPlaying] = useState(false);
   const [songId, setSongId] = useState('');
-
+  // References
   const oldId = useRef('');
-
+  // Song information
   const songData = database?.songs.find((item) => item.id === songId);
 
   /**
@@ -71,6 +72,11 @@ const App: FC = () => {
       }
     }
   }, [songId]);
+
+  // Initial config of the player
+  useEffect(() => {
+    player.volume = 0.5;
+  }, []);
 
   if (!database) {
     return null;
