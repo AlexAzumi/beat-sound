@@ -1,16 +1,20 @@
 import { FC, useCallback } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
+import {
+  faPlayCircle,
+  faPauseCircle,
+} from '@fortawesome/free-regular-svg-icons';
 
 import Song from '../../main/interfaces/song';
 
 interface SongListProps {
+  currentSongId: string;
   songs: Song[];
   onPlaySong(id: string): void;
 }
 
-const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
+const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
   /**
    * Formats the duration in seconds to `mm:ss`
    */
@@ -23,10 +27,22 @@ const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
 
   return (
     <Container className="overflow-auto" fluid={true}>
+      <Row className="sticky-top py-3 mb-1 bg-white border-bottom">
+        <Col
+          className="d-flex align-items-center justify-content-center"
+          xs={1}
+        ></Col>
+        <Col className="d-flex align-items-center fw-bold">Name</Col>
+        <Col className="d-flex align-items-center fw-bold">Artist</Col>
+        <Col className="d-flex align-items-center fw-bold">Duration</Col>
+      </Row>
+
       {songs.map((item) => {
+        const isPlaying = currentSongId === item.id;
+
         return (
           <Row
-            className="song-container mb-2"
+            className={`song-container mb-2 ${isPlaying ? 'current-song' : ''}`}
             key={item.id}
             onClick={() => onPlaySong(item.id)}
           >
@@ -34,7 +50,10 @@ const SongList: FC<SongListProps> = ({ songs, onPlaySong }) => {
               className="d-flex align-items-center justify-content-center"
               xs={1}
             >
-              <FontAwesomeIcon icon={faPlayCircle} size="2x" />
+              <FontAwesomeIcon
+                icon={isPlaying ? faPauseCircle : faPlayCircle}
+                size="2x"
+              />
             </Col>
             <Col className="d-flex align-items-center">
               <img

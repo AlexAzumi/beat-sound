@@ -84,9 +84,17 @@ const App: FC = () => {
 
   return (
     <div className="d-flex flex-column vh-100 px-0">
-      <SongList songs={database.songs} onPlaySong={playSong} />
+      <SongList
+        currentSongId={songId}
+        onPlaySong={playSong}
+        songs={database.songs}
+      />
 
-      <Panel currentSong={songData} onChangeVolume={changeVolume} />
+      <Panel
+        currentSong={songData}
+        isPlaying={isPlaying}
+        onChangeVolume={changeVolume}
+      />
     </div>
   );
 };

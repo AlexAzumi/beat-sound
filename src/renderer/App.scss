@@ -1,11 +1,16 @@
 $primary: #6C95FF;
 $dark: #2D2D2D;
 $muted: #999999;
+$white: #FFFFFF;
 
 $theme-colors: (
   "primary": $primary,
   "dark": $dark
 );
+
+* {
+  user-select: none;
+}
 
 html, body, #root {
   overflow-x: hidden;
@@ -27,12 +32,22 @@ html, body, #root {
 }
 
 .song-container {
-  transition: all 250ms;
-
   &:hover {
     background-color: $primary;
     cursor: pointer;
-    user-select: none;
+  }
+
+  &.current-song {
+
+  }
+}
+
+.player-control {
+  color: $muted;
+
+  &:hover {
+    color: $white;
+    cursor: pointer;
   }
 }
 
