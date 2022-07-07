@@ -4,7 +4,6 @@ import SongList from './components/SongList';
 import Panel from './components/Panel';
 
 import Database from '../main/interfaces/database';
-import Song from '../main/interfaces/song';
 
 import './App.scss';
 
@@ -12,28 +11,20 @@ const player = new Audio();
 
 const App: FC = () => {
   const [database, setDatabase] = useState<Database>();
-  const [playerState, setPlayerState] = useState<{
-    id: string;
-    songData: Song | null;
-    playing: boolean;
-  }>({
-    id: '',
-    songData: null,
-    playing: false,
-  });
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [songId, setSongId] = useState('');
 
   const oldId = useRef('');
+
+  const songData = database?.songs.find((item) => item.id === songId);
 
   /**
    * Plays the selected song
    */
   const playSong = useCallback(
     (id: string) => {
-      setPlayerState({
-        ...playerState,
-        id,
-        playing: false,
-      });
+      setSongId(id);
+      setIsPlaying(true);
     },
     [database]
   );
@@ -51,33 +42,35 @@ const App: FC = () => {
   });
 
   useEffect(() => {
-    if (playerState.playing) {
+    if (!songId) {
+      return;
+    }
+
+    if (!isPlaying) {
       player.play();
     } else {
       player.pause();
     }
 
-    if (playerState.id !== oldId.current) {
-      const selectedSong = database?.songs.find(
-        (item) => item.id === playerState.id
-      );
+    if (songId !== oldId.current) {
+      const selectedSong = database?.songs.find((item) => item.id === songId);
 
       if (selectedSong) {
         const songPath = `file://${selectedSong.songPath}\\${selectedSong.audioFile}`;
 
         player.pause();
+
         player.src = songPath;
         player.load();
+
         player.play();
-        setPlayerState({
-          ...playerState,
-          songData: selectedSong,
-          playing: true,
-        });
-        oldId.current = playerState.id;
+
+        setIsPlaying(true);
+
+        oldId.current = songId;
       }
     }
-  }, [playerState]);
+  }, [songId]);
 
   if (!database) {
     return null;
@@ -87,7 +80,7 @@ const App: FC = () => {
     <div className="d-flex flex-column vh-100 px-0">
       <SongList songs={database.songs} onPlaySong={playSong} />
 
-      <Panel currentSong={playerState.songData} onChangeVolume={changeVolume} />
+      <Panel currentSong={songData} onChangeVolume={changeVolume} />
     </div>
   );
 };

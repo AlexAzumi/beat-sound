@@ -6,7 +6,7 @@ import { faVolumeOff, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
 import Song from '../../main/interfaces/song';
 
 interface PanelProps {
-  currentSong: Song | null;
+  currentSong: Song | undefined;
   onChangeVolume(value: number): void;
 }
 
