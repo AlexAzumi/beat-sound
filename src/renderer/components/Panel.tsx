@@ -15,13 +15,24 @@ import Song from '../../main/interfaces/song';
 interface PanelProps {
   currentSong: Song | undefined;
   isPlaying: boolean;
+  volume: number;
   onChangeVolume(value: number): void;
 }
 
-const Panel: FC<PanelProps> = ({ currentSong, isPlaying, onChangeVolume }) => {
+const Panel: FC<PanelProps> = ({
+  currentSong,
+  isPlaying,
+  volume,
+  onChangeVolume,
+}) => {
+  const initialVolume = volume * 100;
+
+  /**
+   * Returns the volume level scaled from 0 to 1
+   */
   const handleChangeVolume = useCallback((element: HTMLInputElement) => {
     const value = parseInt(element.value);
-    const calculatedValue = (1 * value) / 100;
+    const calculatedValue = value / 100;
 
     onChangeVolume(calculatedValue);
   }, []);
@@ -73,6 +84,7 @@ const Panel: FC<PanelProps> = ({ currentSong, isPlaying, onChangeVolume }) => {
           <FontAwesomeIcon icon={faVolumeOff} />
           <input
             className="mx-2"
+            defaultValue={initialVolume}
             onChange={(input) => handleChangeVolume(input.currentTarget)}
             type="range"
           />

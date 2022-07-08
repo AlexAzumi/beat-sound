@@ -11,10 +11,16 @@ import Song from '../../main/interfaces/song';
 interface SongListProps {
   currentSongId: string;
   songs: Song[];
+  isPlaying: boolean;
   onPlaySong(id: string): void;
 }
 
-const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
+const SongList: FC<SongListProps> = ({
+  currentSongId,
+  isPlaying,
+  onPlaySong,
+  songs,
+}) => {
   /**
    * Formats the duration in seconds to `mm:ss`
    */
@@ -38,7 +44,7 @@ const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
       </Row>
 
       {songs.map((item) => {
-        const isPlaying = currentSongId === item.id;
+        const isPlayingThisSong = currentSongId === item.id && isPlaying;
 
         return (
           <Row
@@ -51,7 +57,7 @@ const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
               xs={1}
             >
               <FontAwesomeIcon
-                icon={isPlaying ? faPauseCircle : faPlayCircle}
+                icon={isPlayingThisSong ? faPauseCircle : faPlayCircle}
                 size="2x"
               />
             </Col>
