@@ -32,7 +32,7 @@ const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
           className="d-flex align-items-center justify-content-center"
           xs={1}
         ></Col>
-        <Col className="d-flex align-items-center fw-bold">Name</Col>
+        <Col className="d-flex align-items-center fw-bold">Title</Col>
         <Col className="d-flex align-items-center fw-bold">Artist</Col>
         <Col className="d-flex align-items-center fw-bold">Duration</Col>
       </Row>
