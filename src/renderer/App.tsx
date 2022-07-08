@@ -5,6 +5,8 @@ import Panel from './components/Panel';
 
 import Database from '../main/interfaces/database';
 
+import CONFIG from './render.config';
+
 import './App.scss';
 
 const player = new Audio();
@@ -69,6 +71,9 @@ const App: FC = () => {
         setIsPlaying(true);
 
         oldId.current = songId;
+
+        // Update app title
+        document.title = `${selectedSong.name} - ${selectedSong.artist} | ${CONFIG.APP_NAME}`;
       }
     }
   }, [songId]);
