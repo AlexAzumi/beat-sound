@@ -2,6 +2,7 @@ $primary: #6C95FF;
 $dark: #2D2D2D;
 $muted: #999999;
 $white: #FFFFFF;
+$hover: #DADADA;
 
 $theme-colors: (
   "primary": $primary,
@@ -24,7 +25,7 @@ html, body, #root {
 
   &::-webkit-slider-thumb {
     appearance: none;
-    background-color: $dark;
+    background-color: $hover;
     box-shadow: -100vw 0 0 100vw $primary;
     height: 10px;
     width: 10px;
@@ -33,12 +34,8 @@ html, body, #root {
 
 .song-container {
   &:hover {
-    background-color: $primary;
+    background-color: $hover;
     cursor: pointer;
-  }
-
-  &.current-song {
-
   }
 }
 

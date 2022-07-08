@@ -42,7 +42,7 @@ const SongList: FC<SongListProps> = ({ songs, currentSongId, onPlaySong }) => {
 
         return (
           <Row
-            className={`song-container mb-2 ${isPlaying ? 'current-song' : ''}`}
+            className="song-container py-1"
             key={item.id}
             onClick={() => onPlaySong(item.id)}
           >
