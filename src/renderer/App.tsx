@@ -1,7 +1,9 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
+import Appbar from './Appbar/AppBar';
 import SongList from './SongList/SongList';
 import Panel from './Panel/Panel';
+import Song from '../main/interfaces/song';
 
 import Database from '../main/interfaces/database';
 
@@ -17,6 +19,7 @@ const App: FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [songId, setSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
+  const [songsToShow, setSongsToShow] = useState<Song[]>([]);
   // References
   const oldId = useRef('');
   // Song information
@@ -59,6 +62,15 @@ const App: FC = () => {
     localStorage.setItem('volume', value.toString());
   }, []);
 
+  /**
+   * Changes the current time to the inputed value by the user using the progress bar
+   * @param position - Position in seconds
+   */
+  const goToSecond = useCallback((position: number) => {
+    player.currentTime = position;
+  }, []);
+
+  // Updates the selected song
   useEffect(() => {
     if (!songId) {
       return;
@@ -86,12 +98,29 @@ const App: FC = () => {
   }, [songId]);
 
   /**
-   * Changes the current time to the inputed value by the user using the progress bar
-   * @param position - Position in seconds
+   * Updates the search query
+   * @param query - Search query
    */
-  const goToSecond = useCallback((position: number) => {
-    player.currentTime = position;
-  }, []);
+  const searchSong = useCallback(
+    (query: string) => {
+      const searchPromise = new Promise<Song[]>((resolve, reject) => {
+        if (!database) {
+          reject([]);
+        } else {
+          const filteredItems = database.songs.filter(
+            (item) =>
+              item.name.toLocaleLowerCase().includes(query) ||
+              item.artist.toLocaleLowerCase().includes(query)
+          );
+
+          resolve(filteredItems);
+        }
+      });
+
+      searchPromise.then((songs) => setSongsToShow(songs)).catch(console.log);
+    },
+    [database]
+  );
 
   // Initial config of the player
   useEffect(() => {
@@ -119,17 +148,25 @@ const App: FC = () => {
     };
   }, [isPlaying]);
 
+  useEffect(() => {
+    if (database) {
+      setSongsToShow(database.songs);
+    }
+  }, [database]);
+
   if (!database) {
     return null;
   }
 
   return (
     <div className="d-flex flex-column vh-100 px-0">
+      <Appbar handleSearchSong={searchSong} />
+
       <SongList
         currentSongId={songId}
         isPlaying={isPlaying}
         handlePlaySong={handlePlaySong}
-        songs={database.songs}
+        songs={songsToShow}
       />
 
       <Panel
