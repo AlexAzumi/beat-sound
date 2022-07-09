@@ -140,7 +140,7 @@ const Panel: FC<PanelProps> = ({
             className="d-flex justify-content-center align-items-center"
           >
             <PlayerControls
-              currentTime={formatTime(currentTime)}
+              currentTime={formatTime(seekPosition || currentTime)}
               handleClickPlay={handleClickPlay}
               isPlaying={isPlaying}
               songDuration={formatTime(getSongDuration())}
