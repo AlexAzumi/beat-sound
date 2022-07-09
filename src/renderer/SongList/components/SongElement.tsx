@@ -64,7 +64,9 @@ const SongElement: FC<SongElementProps> = ({
         {name}
       </Col>
       <Col className="d-flex align-items-center">{artist}</Col>
-      <Col className="d-flex align-items-center">{duration}</Col>
+      <Col xs={1} className="d-flex align-items-center">
+        {duration}
+      </Col>
     </Row>
   );
 };

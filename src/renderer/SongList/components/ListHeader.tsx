@@ -10,7 +10,9 @@ const ListHeader: FC = () => {
       ></Col>
       <Col className="d-flex align-items-center fw-bold">Title</Col>
       <Col className="d-flex align-items-center fw-bold">Artist</Col>
-      <Col className="d-flex align-items-center fw-bold">Duration</Col>
+      <Col className="d-flex align-items-center fw-bold" xs={1}>
+        Duration
+      </Col>
     </Row>
   );
 };
