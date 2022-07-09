@@ -152,7 +152,7 @@ const Panel: FC<PanelProps> = ({
         </Row>
       </Container>
     ),
-    [currentSong, isPlaying, volume, currentTime]
+    [currentSong, isPlaying, volume, currentTime, seekPosition]
   );
 };
 

@@ -87,7 +87,10 @@ const App: FC = () => {
         player.src = songPath;
         player.load();
         player.play();
+
+        // Update player state
         setIsPlaying(true);
+        setCurrentTime(0);
 
         oldId.current = songId;
 
