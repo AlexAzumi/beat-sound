@@ -143,7 +143,9 @@ const App: FC = () => {
         }
       });
 
-      sortPromise.then(setSongsToShow).catch(console.warn);
+      sortPromise
+        .then((songs) => setSongsToShow([...songs]))
+        .catch(console.warn);
     },
     [songsToShow]
   );
@@ -175,9 +177,25 @@ const App: FC = () => {
   }, [isPlaying]);
 
   useEffect(() => {
-    if (database) {
-      setSongsToShow(database.songs);
-    }
+    const sorteredSongsPromise = new Promise<Song[]>((resolve, reject) => {
+      if (!database) {
+        reject([]);
+      } else {
+        const sorteredSongs = database.songs.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          } else if (a.name > b.name) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
+        resolve(sorteredSongs);
+      }
+    });
+
+    sorteredSongsPromise.then(setSongsToShow).catch(console.warn);
   }, [database]);
 
   if (!database) {
