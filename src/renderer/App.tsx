@@ -20,7 +20,6 @@ const App: FC = () => {
   const [songId, setSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
   const [songsToShow, setSongsToShow] = useState<Song[]>([]);
-  const [columnToSort, setColumnToSort] = useState('');
   // References
   const oldId = useRef('');
   // Song information
