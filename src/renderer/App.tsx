@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import SongList from './components/SongList';
+import SongList from './SongList/SongList';
 import Panel from './Panel/Panel';
 
 import Database from '../main/interfaces/database';
@@ -101,7 +101,7 @@ const App: FC = () => {
       <SongList
         currentSongId={songId}
         isPlaying={isPlaying}
-        onPlaySong={handlePlaySong}
+        handlePlaySong={handlePlaySong}
         songs={database.songs}
       />
 

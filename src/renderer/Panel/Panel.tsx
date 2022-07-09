@@ -23,7 +23,7 @@ interface PanelProps {
   volume: number;
   /**
    * Handles the playing/pausing event of a song
-   * @param id - Unique ID of the song
+   * @param id - Unique id of the song
    */
   handlePlaySong(id: string): void;
   /**
@@ -37,7 +37,7 @@ const Panel: FC<PanelProps> = ({
   currentSong,
   isPlaying,
   onChangeVolume,
-  handlePlaySong: playSong,
+  handlePlaySong,
   volume,
 }) => {
   const initialVolume = volume * 100;
@@ -60,7 +60,7 @@ const Panel: FC<PanelProps> = ({
       return;
     }
 
-    playSong(currentSong.id);
+    handlePlaySong(currentSong.id);
   }, [currentSong, isPlaying]);
 
   return (
