@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
 import SongList from './components/SongList';
-import Panel from './components/Panel';
+import Panel from './Panel/Panel';
 
 import Database from '../main/interfaces/database';
 
@@ -27,9 +27,9 @@ const App: FC = () => {
   });
 
   /**
-   * Plays the selected song
+   * Handles the event of playing/pausing a song
    */
-  const playSong = useCallback(
+  const handlePlaySong = useCallback(
     (id: string) => {
       // Check if the selected song is the same
       if (oldId.current === id) {
@@ -101,7 +101,7 @@ const App: FC = () => {
       <SongList
         currentSongId={songId}
         isPlaying={isPlaying}
-        onPlaySong={playSong}
+        onPlaySong={handlePlaySong}
         songs={database.songs}
       />
 
@@ -109,7 +109,7 @@ const App: FC = () => {
         currentSong={songData}
         isPlaying={isPlaying}
         onChangeVolume={changeVolume}
-        playSong={playSong}
+        handlePlaySong={handlePlaySong}
         volume={player.volume}
       />
     </div>
