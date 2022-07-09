@@ -9,6 +9,14 @@ import {
 
 interface PlayerControlsProps {
   /**
+   * Current time of the playback (formated `mm:ss`)
+   */
+  currentTime: string;
+  /**
+   * Song's duration (formated `mm:ss`)
+   */
+  songDuration: string;
+  /**
    * Set to `true` is there is a song that is playing
    */
   isPlaying: boolean;
@@ -19,11 +27,14 @@ interface PlayerControlsProps {
 }
 
 const PlayerControls: FC<PlayerControlsProps> = ({
-  isPlaying,
+  currentTime,
   handleClickPlay,
+  isPlaying,
+  songDuration,
 }) => {
   return (
     <>
+      <p className="mb-0 me-5">{currentTime}</p>
       <FontAwesomeIcon
         className="player-control"
         icon={faBackwardStep}
@@ -40,6 +51,7 @@ const PlayerControls: FC<PlayerControlsProps> = ({
         icon={faForwardStep}
         size="2x"
       />
+      <p className="mb-0 ms-5">{songDuration}</p>
     </>
   );
 };

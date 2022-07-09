@@ -1,8 +1,10 @@
-import { FC, useCallback, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { Container } from 'react-bootstrap';
 
 import ListHeader from './components/ListHeader';
 import SongElement from './components/SongElement';
+
+import useFormatTime from '../hooks/useFormatTime';
 
 import Song from '../../main/interfaces/song';
 
@@ -38,16 +40,7 @@ const SongList: FC<SongListProps> = ({
   isPlaying,
   songs,
 }) => {
-  /**
-   * Formats the duration in seconds to `mm:ss`
-   * @param duration - Song duration in seconds
-   */
-  const getFormatedDuration = useCallback((duration: number) => {
-    const minutes = Math.floor(duration / 60);
-    const seconds = Math.floor(duration - minutes * 60);
-
-    return `${minutes}:${seconds}`;
-  }, []);
+  const formatTime = useFormatTime();
 
   return useMemo(
     () => (
@@ -60,7 +53,7 @@ const SongList: FC<SongListProps> = ({
           return (
             <SongElement
               artist={item.artist}
-              duration={getFormatedDuration(item.duration)}
+              duration={formatTime(item.duration)}
               handlePlaySong={handlePlaySong}
               imageSrc={`file://${item.songPath}\\${item.coverFile}`}
               isPlayingThisSong={isPlayingThisSong}

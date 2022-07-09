@@ -6,6 +6,8 @@ import SongData from './components/SongData';
 import PlayerControls from './components/PlayerControls';
 import VolumeSlider from './components/VolumeSlider';
 
+import useFormatTime from '../hooks/useFormatTime';
+
 import Song from '../../main/interfaces/song';
 
 interface PanelProps {
@@ -52,6 +54,8 @@ const Panel: FC<PanelProps> = ({
   volume,
 }) => {
   const [seekPosition, setSeekPosition] = useState(0);
+
+  const formatTime = useFormatTime();
 
   const initialVolume = volume * 100;
 
@@ -136,8 +140,10 @@ const Panel: FC<PanelProps> = ({
             className="d-flex justify-content-center align-items-center"
           >
             <PlayerControls
-              isPlaying={isPlaying}
+              currentTime={formatTime(currentTime)}
               handleClickPlay={handleClickPlay}
+              isPlaying={isPlaying}
+              songDuration={formatTime(getSongDuration())}
             />
           </Col>
           <Col
