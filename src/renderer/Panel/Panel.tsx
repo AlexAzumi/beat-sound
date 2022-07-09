@@ -18,6 +18,10 @@ interface PanelProps {
    */
   isPlaying: boolean;
   /**
+   * Current time of the playback (in seconds)
+   */
+  currentTime: number;
+  /**
    * Current volume of the player (scaled from 0 to 1)
    */
   volume: number;
@@ -35,9 +39,10 @@ interface PanelProps {
 
 const Panel: FC<PanelProps> = ({
   currentSong,
+  currentTime,
+  handlePlaySong,
   isPlaying,
   onChangeVolume,
-  handlePlaySong,
   volume,
 }) => {
   const initialVolume = volume * 100;
@@ -63,13 +68,24 @@ const Panel: FC<PanelProps> = ({
     handlePlaySong(currentSong.id);
   }, [currentSong, isPlaying]);
 
+  /**
+   * Gets the sond duration in seconds
+   */
+  const getSongDuration = useCallback(() => {
+    if (!currentSong) {
+      return 0;
+    }
+
+    return Math.round(currentSong.duration);
+  }, [currentSong]);
+
   return (
     <Container
       className="px-0 bg-dark text-white d-flex flex-column"
       fluid={true}
     >
       {/* Progress slider */}
-      <ProgressSlider />
+      <ProgressSlider currentTime={currentTime} duration={getSongDuration()} />
       {/* Controls */}
       <Row>
         <Col xs={3} className="d-flex">

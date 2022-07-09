@@ -48,11 +48,7 @@ const SongElement: FC<SongElementProps> = ({
   songId,
 }) => {
   return (
-    <Row
-      className="song-container py-1"
-      key={songId}
-      onClick={() => handlePlaySong(songId)}
-    >
+    <Row className="song-container py-1" onClick={() => handlePlaySong(songId)}>
       <Col className="d-flex align-items-center justify-content-center" xs={1}>
         <FontAwesomeIcon
           icon={isPlayingThisSong ? faPauseCircle : faPlayCircle}

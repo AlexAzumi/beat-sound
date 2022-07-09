@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { Container } from 'react-bootstrap';
 
 import ListHeader from './components/ListHeader';
@@ -43,26 +43,30 @@ const SongList: FC<SongListProps> = ({
     return `${minutes}:${seconds}`;
   }, []);
 
-  return (
-    <Container className="overflow-auto" fluid={true}>
-      <ListHeader />
+  return useMemo(
+    () => (
+      <Container className="overflow-auto" fluid={true}>
+        <ListHeader />
 
-      {songs.map((item) => {
-        const isPlayingThisSong = currentSongId === item.id && isPlaying;
+        {songs.map((item) => {
+          const isPlayingThisSong = currentSongId === item.id && isPlaying;
 
-        return (
-          <SongElement
-            artist={item.artist}
-            duration={getFormatedDuration(item.duration)}
-            handlePlaySong={handlePlaySong}
-            imageSrc={`file://${item.songPath}\\${item.coverFile}`}
-            isPlayingThisSong={isPlayingThisSong}
-            name={item.name}
-            songId={item.id}
-          />
-        );
-      })}
-    </Container>
+          return (
+            <SongElement
+              artist={item.artist}
+              duration={getFormatedDuration(item.duration)}
+              handlePlaySong={handlePlaySong}
+              imageSrc={`file://${item.songPath}\\${item.coverFile}`}
+              isPlayingThisSong={isPlayingThisSong}
+              name={item.name}
+              songId={item.id}
+              key={item.id}
+            />
+          );
+        })}
+      </Container>
+    ),
+    [currentSongId, isPlaying, songs]
   );
 };
 

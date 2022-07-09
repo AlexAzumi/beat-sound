@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import SongList from './SongList/SongList';
 import Panel from './Panel/Panel';
@@ -16,6 +16,7 @@ const App: FC = () => {
   // Player state
   const [isPlaying, setIsPlaying] = useState(false);
   const [songId, setSongId] = useState('');
+  const [currentTime, setCurrentTime] = useState(0);
   // References
   const oldId = useRef('');
   // Song information
@@ -92,6 +93,24 @@ const App: FC = () => {
     player.volume = initialVolume;
   }, []);
 
+  useEffect(() => {
+    const timeUpdate = setInterval(() => {
+      if (!isPlaying) {
+        return;
+      }
+
+      const playerTime = Math.round(player.currentTime);
+
+      if (playerTime !== currentTime) {
+        setCurrentTime(playerTime);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(timeUpdate);
+    };
+  }, [isPlaying]);
+
   if (!database) {
     return null;
   }
@@ -107,9 +126,10 @@ const App: FC = () => {
 
       <Panel
         currentSong={songData}
+        currentTime={currentTime}
+        handlePlaySong={handlePlaySong}
         isPlaying={isPlaying}
         onChangeVolume={changeVolume}
-        handlePlaySong={handlePlaySong}
         volume={player.volume}
       />
     </div>
