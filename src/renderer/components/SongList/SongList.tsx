@@ -4,9 +4,9 @@ import { Container } from 'react-bootstrap';
 import ListHeader from './components/ListHeader';
 import SongElement from './components/SongElement';
 
-import useFormatTime from '../hooks/useFormatTime';
+import useFormatTime from '../../hooks/useFormatTime';
 
-import Song from '../../main/interfaces/song';
+import Song from '../../../main/interfaces/song';
 
 interface SongListProps {
   /**

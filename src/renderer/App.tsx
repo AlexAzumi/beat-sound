@@ -1,11 +1,11 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 
-import Appbar from './Appbar/AppBar';
-import SongList from './SongList/SongList';
-import Panel from './Panel/Panel';
-import Song from '../main/interfaces/song';
+import Appbar from './components/Appbar/AppBar';
+import SongList from './components/SongList/SongList';
+import Panel from './components/Panel/Panel';
 
 import Database from '../main/interfaces/database';
+import Song from '../main/interfaces/song';
 
 import CONFIG from './render.config';
 

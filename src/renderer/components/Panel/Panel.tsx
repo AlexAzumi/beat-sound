@@ -6,9 +6,9 @@ import SongData from './components/SongData';
 import PlayerControls from './components/PlayerControls';
 import VolumeSlider from './components/VolumeSlider';
 
-import useFormatTime from '../hooks/useFormatTime';
+import useFormatTime from '../../hooks/useFormatTime';
 
-import Song from '../../main/interfaces/song';
+import Song from '../../../main/interfaces/song';
 
 interface PanelProps {
   /**
