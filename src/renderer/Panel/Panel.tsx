@@ -105,6 +105,8 @@ const Panel: FC<PanelProps> = ({
     return Math.round(currentSong.duration);
   }, [currentSong]);
 
+  console.log(currentTime);
+
   return (
     <Container
       className="px-0 bg-dark text-white d-flex flex-column"

@@ -29,7 +29,8 @@ const ProgressSlider: FC<ProgressSliderProps> = ({
   return (
     <input
       className="progress-slider w-100"
-      maxLength={duration}
+      max={duration}
+      min={0}
       onChange={(event) => handleSeek(parseInt(event.currentTarget.value))}
       onMouseUp={handleEndSeek}
       step={1}
