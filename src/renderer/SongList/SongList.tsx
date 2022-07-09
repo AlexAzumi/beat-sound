@@ -45,7 +45,7 @@ const SongList: FC<SongListProps> = ({
 
   return useMemo(
     () => (
-      <Container className="overflow-auto" fluid={true}>
+      <Container className="overflow-auto flex-grow-1" fluid={true}>
         <ListHeader />
 
         {songs.map((item) => {
