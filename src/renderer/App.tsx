@@ -20,6 +20,7 @@ const App: FC = () => {
   const [songId, setSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
   const [songsToShow, setSongsToShow] = useState<Song[]>([]);
+  const [columnToSort, setColumnToSort] = useState('');
   // References
   const oldId = useRef('');
   // Song information
@@ -117,9 +118,35 @@ const App: FC = () => {
         }
       });
 
-      searchPromise.then((songs) => setSongsToShow(songs)).catch(console.log);
+      searchPromise.then(setSongsToShow).catch(console.warn);
     },
     [database]
+  );
+
+  /**
+   * Sorts the songs by the selected column
+   */
+  const sortByColumn = useCallback(
+    (columnName: string) => {
+      const sortPromise = new Promise<Song[]>((resolve, reject) => {
+        if (!songsToShow) {
+          reject([]);
+        } else {
+          const sortedSongs = songsToShow.sort((a, b) => {
+            if (columnName === 'title') {
+              return a.name < b.name ? -1 : 1;
+            } else {
+              return a.artist < a.artist ? -1 : 1;
+            }
+          });
+
+          resolve(sortedSongs);
+        }
+      });
+
+      sortPromise.then(setSongsToShow).catch(console.warn);
+    },
+    [songsToShow]
   );
 
   // Initial config of the player
@@ -164,8 +191,9 @@ const App: FC = () => {
 
       <SongList
         currentSongId={songId}
-        isPlaying={isPlaying}
         handlePlaySong={handlePlaySong}
+        handleSortByColumn={sortByColumn}
+        isPlaying={isPlaying}
         songs={songsToShow}
       />
 

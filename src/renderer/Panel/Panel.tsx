@@ -1,4 +1,4 @@
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import ProgressSlider from './components/ProgressSlider';
@@ -105,53 +105,54 @@ const Panel: FC<PanelProps> = ({
     return Math.round(currentSong.duration);
   }, [currentSong]);
 
-  console.log(currentTime);
-
-  return (
-    <Container
-      className="px-0 bg-dark text-white d-flex flex-column"
-      fluid={true}
-    >
-      {/* Progress slider */}
-      <ProgressSlider
-        currentTime={seekPosition || currentTime}
-        duration={getSongDuration()}
-        handleEndSeek={handleEndSeek}
-        handleSeek={handleSeek}
-      />
-      {/* Controls */}
-      <Row>
-        <Col xs={3} className="d-flex">
-          <SongData
-            artist={currentSong?.artist || ''}
-            imageSrc={
-              currentSong
-                ? `file://${currentSong?.songPath}\\${currentSong?.coverFile}`
-                : ''
-            }
-            name={currentSong?.name || ''}
-          />
-        </Col>
-        <Col
-          xs={6}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <PlayerControls
-            isPlaying={isPlaying}
-            handleClickPlay={handleClickPlay}
-          />
-        </Col>
-        <Col
-          className="d-flex px-4 justify-content-end align-items-center"
-          xs={3}
-        >
-          <VolumeSlider
-            initialVolume={initialVolume}
-            handleChangeVolume={handleChangeVolume}
-          />
-        </Col>
-      </Row>
-    </Container>
+  return useMemo(
+    () => (
+      <Container
+        className="px-0 bg-dark text-white d-flex flex-column"
+        fluid={true}
+      >
+        {/* Progress slider */}
+        <ProgressSlider
+          currentTime={seekPosition || currentTime}
+          duration={getSongDuration()}
+          handleEndSeek={handleEndSeek}
+          handleSeek={handleSeek}
+        />
+        {/* Controls */}
+        <Row>
+          <Col xs={3} className="d-flex">
+            <SongData
+              artist={currentSong?.artist || ''}
+              imageSrc={
+                currentSong
+                  ? `file://${currentSong?.songPath}\\${currentSong?.coverFile}`
+                  : ''
+              }
+              name={currentSong?.name || ''}
+            />
+          </Col>
+          <Col
+            xs={6}
+            className="d-flex justify-content-center align-items-center"
+          >
+            <PlayerControls
+              isPlaying={isPlaying}
+              handleClickPlay={handleClickPlay}
+            />
+          </Col>
+          <Col
+            className="d-flex px-4 justify-content-end align-items-center"
+            xs={3}
+          >
+            <VolumeSlider
+              initialVolume={initialVolume}
+              handleChangeVolume={handleChangeVolume}
+            />
+          </Col>
+        </Row>
+      </Container>
+    ),
+    [currentSong, isPlaying, volume, currentTime]
   );
 };
 

@@ -24,12 +24,18 @@ interface SongListProps {
    * @param id - Unique id of the song
    */
   handlePlaySong(id: string): void;
+  /**
+   * Handles the click on a column title
+   * @param columnName - Name of the column
+   */
+  handleSortByColumn(columnName: string): void;
 }
 
 const SongList: FC<SongListProps> = ({
   currentSongId,
-  isPlaying,
   handlePlaySong,
+  handleSortByColumn,
+  isPlaying,
   songs,
 }) => {
   /**
@@ -46,7 +52,7 @@ const SongList: FC<SongListProps> = ({
   return useMemo(
     () => (
       <Container className="overflow-auto flex-grow-1" fluid={true}>
-        <ListHeader />
+        <ListHeader handleSortByColumn={handleSortByColumn} />
 
         {songs.map((item) => {
           const isPlayingThisSong = currentSongId === item.id && isPlaying;
