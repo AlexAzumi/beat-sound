@@ -10,6 +10,8 @@ interface ListHeaderProps {
 }
 
 const ListHeader: FC<ListHeaderProps> = ({ handleSortByColumn }) => {
+  // TODO: Implement proper column sorting (normal and reverse)
+
   return (
     <Row className="sticky-top py-3 mb-1 bg-white border-bottom">
       <Col
