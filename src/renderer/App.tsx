@@ -85,6 +85,14 @@ const App: FC = () => {
     }
   }, [songId]);
 
+  /**
+   * Changes the current time to the inputed value by the user using the progress bar
+   * @param position - Position in seconds
+   */
+  const goToSecond = useCallback((position: number) => {
+    player.currentTime = position;
+  }, []);
+
   // Initial config of the player
   useEffect(() => {
     const initialVolume =
@@ -130,6 +138,7 @@ const App: FC = () => {
         handlePlaySong={handlePlaySong}
         isPlaying={isPlaying}
         onChangeVolume={changeVolume}
+        onEndSeeking={goToSecond}
         volume={player.volume}
       />
     </div>

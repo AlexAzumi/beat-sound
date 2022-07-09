@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import ProgressSlider from './components/ProgressSlider';
@@ -35,6 +35,11 @@ interface PanelProps {
    * @param value - Slider value (scaled from 0 to 1)
    */
   onChangeVolume(value: number): void;
+  /**
+   * Handles the end of the seeking event of the progress bar
+   * @param position
+   */
+  onEndSeeking(position: number): void;
 }
 
 const Panel: FC<PanelProps> = ({
@@ -43,8 +48,11 @@ const Panel: FC<PanelProps> = ({
   handlePlaySong,
   isPlaying,
   onChangeVolume,
+  onEndSeeking,
   volume,
 }) => {
+  const [seekPosition, setSeekPosition] = useState(0);
+
   const initialVolume = volume * 100;
 
   /**
@@ -69,6 +77,24 @@ const Panel: FC<PanelProps> = ({
   }, [currentSong, isPlaying]);
 
   /**
+   * Handles a seek event of the slider bar
+   * @param position - Position on the progress bar
+   */
+  const handleSeek = useCallback((position: number) => {
+    setSeekPosition(position);
+  }, []);
+
+  /**
+   * Handles the end of the seek event of the slider bar
+   */
+  const handleEndSeek = useCallback(() => {
+    // Set time on the player
+    onEndSeeking(seekPosition);
+    // Reset seek position
+    setSeekPosition(0);
+  }, [seekPosition]);
+
+  /**
    * Gets the sond duration in seconds
    */
   const getSongDuration = useCallback(() => {
@@ -85,7 +111,12 @@ const Panel: FC<PanelProps> = ({
       fluid={true}
     >
       {/* Progress slider */}
-      <ProgressSlider currentTime={currentTime} duration={getSongDuration()} />
+      <ProgressSlider
+        currentTime={seekPosition || currentTime}
+        duration={getSongDuration()}
+        handleEndSeek={handleEndSeek}
+        handleSeek={handleSeek}
+      />
       {/* Controls */}
       <Row>
         <Col xs={3} className="d-flex">
