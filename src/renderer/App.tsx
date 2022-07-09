@@ -109,6 +109,7 @@ const App: FC = () => {
         currentSong={songData}
         isPlaying={isPlaying}
         onChangeVolume={changeVolume}
+        playSong={playSong}
         volume={player.volume}
       />
     </div>

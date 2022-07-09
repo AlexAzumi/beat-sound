@@ -16,19 +16,21 @@ interface PanelProps {
   currentSong: Song | undefined;
   isPlaying: boolean;
   volume: number;
+  playSong(id: string): void;
   onChangeVolume(value: number): void;
 }
 
 const Panel: FC<PanelProps> = ({
   currentSong,
   isPlaying,
-  volume,
   onChangeVolume,
+  playSong,
+  volume,
 }) => {
   const initialVolume = volume * 100;
 
   /**
-   * Returns the volume level scaled from 0 to 1
+   * Handles the volume change of the player
    */
   const handleChangeVolume = useCallback((element: HTMLInputElement) => {
     const value = parseInt(element.value);
@@ -36,6 +38,17 @@ const Panel: FC<PanelProps> = ({
 
     onChangeVolume(calculatedValue);
   }, []);
+
+  /**
+   * Handles the click event of the play/pause button
+   */
+  const handleClickPlay = useCallback(() => {
+    if (!currentSong) {
+      return;
+    }
+
+    playSong(currentSong.id);
+  }, [currentSong, isPlaying]);
 
   return (
     <Container
@@ -64,17 +77,18 @@ const Panel: FC<PanelProps> = ({
           <FontAwesomeIcon
             className="player-control"
             icon={faBackwardStep}
-            size="3x"
+            size="2x"
           />
           <FontAwesomeIcon
             className="player-control mx-4"
             icon={isPlaying ? faCirclePause : faCirclePlay}
-            size="3x"
+            onClick={handleClickPlay}
+            size="2x"
           />
           <FontAwesomeIcon
             className="player-control"
             icon={faForwardStep}
-            size="3x"
+            size="2x"
           />
         </Col>
         <Col
