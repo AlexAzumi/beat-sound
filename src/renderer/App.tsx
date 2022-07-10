@@ -1,4 +1,5 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import MediaSessionWrapper from '@mebtte/react-media-session';
 
 import Appbar from './components/Appbar/AppBar';
 import SongList from './components/SongList/SongList';
@@ -98,6 +99,12 @@ const App: FC = () => {
 
         // Update app title
         document.title = `${selectedSong.name} - ${selectedSong.artist} | ${renderConfig.APP_NAME}`;
+
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: selectedSong.name,
+          artist: selectedSong.artist,
+          album: `Beat Saber's custom songs`,
+        });
       }
     }
   }, [songId]);
@@ -163,6 +170,7 @@ const App: FC = () => {
     player.volume = initialVolume;
   }, []);
 
+  // Create progress bar interval (1 second tick)
   useEffect(() => {
     const timeUpdate = setInterval(() => {
       if (!isPlaying) {
@@ -181,6 +189,7 @@ const App: FC = () => {
     };
   }, [isPlaying]);
 
+  // Start with sortered songs
   useEffect(() => {
     const sorteredSongsPromise = new Promise<Song[]>((resolve, reject) => {
       if (!database) {
@@ -208,27 +217,36 @@ const App: FC = () => {
   }
 
   return (
-    <div className="d-flex flex-column vh-100 px-0">
-      <Appbar handleSearchSong={searchSong} />
+    <MediaSessionWrapper
+      album={`Beat Saber's custom song`}
+      artist={songData?.artist}
+      artwork={[]} // TODO: Add proper album artwork to the Media Session API
+      onPause={() => handlePlaySong(songId)}
+      onPlay={() => handlePlaySong(songId)}
+      title={songData?.name}
+    >
+      <div className="d-flex flex-column vh-100 px-0">
+        <Appbar handleSearchSong={searchSong} />
 
-      <SongList
-        currentSongId={songId}
-        handlePlaySong={handlePlaySong}
-        handleSortByColumn={sortByColumn}
-        isPlaying={isPlaying}
-        songs={songsToShow}
-      />
+        <SongList
+          currentSongId={songId}
+          handlePlaySong={handlePlaySong}
+          handleSortByColumn={sortByColumn}
+          isPlaying={isPlaying}
+          songs={songsToShow}
+        />
 
-      <Panel
-        currentSong={songData}
-        currentTime={currentTime}
-        handlePlaySong={handlePlaySong}
-        isPlaying={isPlaying}
-        onChangeVolume={changeVolume}
-        onEndSeeking={goToSecond}
-        volume={player.volume}
-      />
-    </div>
+        <Panel
+          currentSong={songData}
+          currentTime={currentTime}
+          handlePlaySong={handlePlaySong}
+          isPlaying={isPlaying}
+          onChangeVolume={changeVolume}
+          onEndSeeking={goToSecond}
+          volume={player.volume}
+        />
+      </div>
+    </MediaSessionWrapper>
   );
 };
 
