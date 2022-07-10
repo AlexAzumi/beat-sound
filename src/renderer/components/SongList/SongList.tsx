@@ -1,5 +1,7 @@
 import { FC, useMemo } from 'react';
 import { Container } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeartCrack } from '@fortawesome/free-solid-svg-icons';
 
 import ListHeader from './components/ListHeader';
 import SongElement from './components/SongElement';
@@ -44,25 +46,36 @@ const SongList: FC<SongListProps> = ({
 
   return useMemo(
     () => (
-      <Container className="overflow-auto flex-grow-1" fluid={true}>
+      <Container
+        className="d-flex flex-column overflow-auto flex-grow-1"
+        fluid={true}
+      >
         <ListHeader handleSortByColumn={handleSortByColumn} />
 
-        {songs.map((item) => {
-          const isPlayingThisSong = currentSongId === item.id && isPlaying;
+        {songs.length ? (
+          songs.map((item) => {
+            const isPlayingThisSong = currentSongId === item.id && isPlaying;
 
-          return (
-            <SongElement
-              artist={item.artist}
-              duration={formatTime(item.duration)}
-              handlePlaySong={handlePlaySong}
-              imageSrc={`file://${item.songPath}\\${item.coverFile}`}
-              isPlayingThisSong={isPlayingThisSong}
-              name={item.name}
-              songId={item.id}
-              key={item.id}
-            />
-          );
-        })}
+            return (
+              <SongElement
+                artist={item.artist}
+                duration={formatTime(item.duration)}
+                handlePlaySong={handlePlaySong}
+                imageSrc={`file://${item.songPath}\\${item.coverFile}`}
+                isPlayingThisSong={isPlayingThisSong}
+                name={item.name}
+                songId={item.id}
+                key={item.id}
+              />
+            );
+          })
+        ) : (
+          <div className="d-flex flex-grow-1 flex-column justify-content-center align-items-center">
+            <FontAwesomeIcon className="mb-4" icon={faHeartCrack} size="6x" />
+            <h2>No results</h2>
+            <p className="mb-0 text-muted">Here's only emptyness</p>
+          </div>
+        )}
       </Container>
     ),
     [currentSongId, isPlaying, songs]
