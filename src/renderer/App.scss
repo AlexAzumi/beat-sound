@@ -49,4 +49,11 @@ html, body, #root {
   }
 }
 
+.no-cover {
+  color: $muted;
+  border: 1px solid $muted;
+  height: 70px;
+  width: 70px;
+}
+
 @import "~bootstrap/scss/bootstrap";
