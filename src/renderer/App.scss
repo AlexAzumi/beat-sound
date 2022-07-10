@@ -9,7 +9,26 @@ $theme-colors: (
   "dark": $dark
 );
 
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 300;
+  src: url('./fonts/Roboto-Light.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 500;
+  src: url('./fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Roboto';
+  font-weight: 700;
+  src: url('./fonts/Roboto-Bold.ttf');
+}
+
 * {
+  font-family: 'Roboto';
   user-select: none;
 }
 
