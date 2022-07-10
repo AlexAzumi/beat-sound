@@ -9,13 +9,14 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, Data } from 'electron';
+import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
 import Database from './interfaces/database';
+import IpcArgs from './interfaces/ipcArgs';
 
 import Recolector from './classes/recolector';
 
@@ -29,10 +30,12 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
-  console.log(msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
+ipcMain.on('main-channel', async (event, args: IpcArgs[]) => {
+  const firstArg = args[0];
+
+  if (firstArg.action === 'reload') {
+    mainWindow?.reload();
+  }
 });
 
 if (process.env.NODE_ENV === 'production') {
