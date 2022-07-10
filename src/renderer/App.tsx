@@ -155,14 +155,6 @@ const App: FC = () => {
     [songsToShow]
   );
 
-  /**
-   * Sets the current time
-   * @param time - Time to set
-   */
-  const updateCurrentTime = useCallback((time: number) => {
-    setCurrentTime(time);
-  }, []);
-
   // Initial config of the player
   useEffect(() => {
     const initialVolume =
