@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import Menu from './components/Menu';
 import SearchBar from './components/SearchBar';
 
 interface AppbarProps {
@@ -13,6 +14,8 @@ interface AppbarProps {
 const Appbar: FC<AppbarProps> = ({ handleSearchSong }) => {
   return (
     <div className="d-flex bg-dark text-white">
+      <Menu />
+
       <SearchBar handleSearchSong={handleSearchSong} />
     </div>
   );

@@ -56,4 +56,45 @@ html, body, #root {
   width: 70px;
 }
 
+.menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .menu-item {
+    align-items: center;
+    display: flex;
+    position: relative;
+    z-index: 1050;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $primary;
+
+      > .submenu {
+        display: block;
+      }
+    }
+
+    .submenu {
+      background-color: $dark;
+      display: none;
+      left: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      top: 100%;
+
+      .submenu-item {
+        white-space: nowrap;
+
+        &:hover {
+          background-color: $primary;
+        }
+      }
+    }
+  }
+}
+
 @import "~bootstrap/scss/bootstrap";
