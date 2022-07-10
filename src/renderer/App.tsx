@@ -7,7 +7,7 @@ import Panel from './components/Panel/Panel';
 import Database from '../main/interfaces/database';
 import Song from '../main/interfaces/song';
 
-import CONFIG from './render.config';
+import renderConfig from './render.config';
 
 import './App.scss';
 
@@ -97,7 +97,7 @@ const App: FC = () => {
         oldId.current = songId;
 
         // Update app title
-        document.title = `${selectedSong.name} - ${selectedSong.artist} | ${CONFIG.APP_NAME}`;
+        document.title = `${selectedSong.name} - ${selectedSong.artist} | ${renderConfig.APP_NAME}`;
       }
     }
   }, [songId]);
