@@ -2,7 +2,14 @@ import { FC } from 'react';
 
 import renderConfig from '../../../render.config';
 
-const Menu: FC = () => {
+interface MenuProps {
+  /**
+   * Shows the about modal
+   */
+  showAboutModal(): void;
+}
+
+const Menu: FC<MenuProps> = ({ showAboutModal }) => {
   return (
     <ul className="menu d-flex">
       <li className="menu-item px-3 py-2">
@@ -15,7 +22,7 @@ const Menu: FC = () => {
       <li className="menu-item px-3 py-2">
         Help
         <ul className="submenu">
-          <li className="submenu-item px-3 py-2">
+          <li className="submenu-item px-3 py-2" onClick={showAboutModal}>
             About {renderConfig.APP_NAME}
           </li>
         </ul>

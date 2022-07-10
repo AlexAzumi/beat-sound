@@ -1,4 +1,5 @@
-import { FC } from 'react';
+import { FC, useCallback, useState } from 'react';
+import About from './components/About';
 
 import Menu from './components/Menu';
 import SearchBar from './components/SearchBar';
@@ -12,12 +13,27 @@ interface AppbarProps {
 }
 
 const Appbar: FC<AppbarProps> = ({ handleSearchSong }) => {
-  return (
-    <div className="d-flex bg-dark text-white">
-      <Menu />
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
-      <SearchBar handleSearchSong={handleSearchSong} />
-    </div>
+  /**
+   * Shows or hides the about modal
+   * @param about - If set to `true`, the modal will be shown
+   */
+  const handleShowModal = useCallback((show: boolean) => {
+    setShowAboutModal(show);
+  }, []);
+
+  return (
+    <>
+      {/* About modal */}
+      <About showModal={showAboutModal} onHide={() => handleShowModal(false)} />
+      {/* App bar content */}
+      <div className="d-flex bg-dark text-white">
+        <Menu showAboutModal={() => handleShowModal(true)} />
+
+        <SearchBar handleSearchSong={handleSearchSong} />
+      </div>
+    </>
   );
 };
 
