@@ -27,7 +27,7 @@ const Menu: FC<MenuProps> = ({ showAboutModal }) => {
           <li className="submenu-item px-3 py-2" onClick={handleRefreshApp}>
             Reload app
           </li>
-          <li className="submenu-item px-3 py-2">Reload songs</li>
+          <li className="submenu-item px-3 py-2">Reload song list</li>
           <li className="submenu-item px-3 py-2">Update instalation folder</li>
         </ul>
       </li>
