@@ -64,10 +64,12 @@ const App: FC = () => {
 
   /**
    * Changes the current time to the inputed value by the user using the progress bar
-   * @param position - Position in seconds
+   * @param time - New time in seconds
    */
-  const goToSecond = useCallback((position: number) => {
-    player.currentTime = position;
+  const goToSecond = useCallback((time: number) => {
+    player.currentTime = time;
+    // Update state
+    setCurrentTime(time);
   }, []);
 
   // Updates the selected song
@@ -152,6 +154,14 @@ const App: FC = () => {
     },
     [songsToShow]
   );
+
+  /**
+   * Sets the current time
+   * @param time - Time to set
+   */
+  const updateCurrentTime = useCallback((time: number) => {
+    setCurrentTime(time);
+  }, []);
 
   // Initial config of the player
   useEffect(() => {

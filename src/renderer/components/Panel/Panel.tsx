@@ -39,9 +39,9 @@ interface PanelProps {
   onChangeVolume(value: number): void;
   /**
    * Handles the end of the seeking event of the progress bar
-   * @param position
+   * @param time - New time
    */
-  onEndSeeking(position: number): void;
+  onEndSeeking(time: number): void;
 }
 
 const Panel: FC<PanelProps> = ({
