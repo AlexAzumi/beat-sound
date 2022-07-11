@@ -63,7 +63,7 @@ const SongList: FC<SongListProps> = ({
                 handlePlaySong={handlePlaySong}
                 imageSrc={`file://${item.songPath}\\${item.coverFile}`}
                 isPlayingThisSong={isPlayingThisSong}
-                name={item.name}
+                name={item.title}
                 songId={item.id}
                 key={item.id}
               />

@@ -5,9 +5,9 @@ export default interface Song {
   id: string;
 
   /**
-   * Complete name of the song
+   * Complete title of the song
    */
-  name: string;
+  title: string;
 
   /**
    * Name of the song's artist

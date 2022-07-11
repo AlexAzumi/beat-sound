@@ -132,7 +132,7 @@ const Panel: FC<PanelProps> = ({
                   ? `file://${currentSong?.songPath}\\${currentSong?.coverFile}`
                   : ''
               }
-              name={currentSong?.name || ''}
+              name={currentSong?.title || ''}
             />
           </Col>
           <Col

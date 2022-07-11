@@ -105,10 +105,10 @@ const App: FC = () => {
         oldId.current = songId;
 
         // Update app title
-        document.title = `${selectedSong.name} - ${selectedSong.artist} | ${renderConfig.APP_NAME}`;
+        document.title = `${selectedSong.title} - ${selectedSong.artist} | ${renderConfig.APP_NAME}`;
 
         navigator.mediaSession.metadata = new MediaMetadata({
-          title: selectedSong.name,
+          title: selectedSong.title,
           artist: selectedSong.artist,
           album: `Beat Saber's custom songs`,
         });
@@ -128,7 +128,7 @@ const App: FC = () => {
         } else {
           const filteredItems = database.songs.filter(
             (item) =>
-              item.name.toLocaleLowerCase().includes(query) ||
+              item.title.toLocaleLowerCase().includes(query) ||
               item.artist.toLocaleLowerCase().includes(query)
           );
 
@@ -225,7 +225,7 @@ const App: FC = () => {
       artwork={[]} // TODO: Add proper album artwork to the Media Session API
       onPause={() => handlePlaySong(songId)}
       onPlay={() => handlePlaySong(songId)}
-      title={songData?.name}
+      title={songData?.title}
     >
       <div className="d-flex flex-column vh-100 px-0">
         <Appbar handleSearchSong={searchSong} />

@@ -124,7 +124,7 @@ class Recolector {
               if (!database.songs.some((song) => song.id === songID)) {
                 database.songs.push({
                   id: songID,
-                  name: data._songName,
+                  title: data._songName,
                   artist: data._songAuthorName,
                   audioFile: data._songFilename,
                   coverFile: data._coverImageFilename,
