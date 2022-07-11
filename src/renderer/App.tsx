@@ -106,12 +106,6 @@ const App: FC = () => {
 
         // Update app title
         document.title = `${selectedSong.title} - ${selectedSong.artist} | ${renderConfig.APP_NAME}`;
-
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: selectedSong.title,
-          artist: selectedSong.artist,
-          album: `Beat Saber's custom songs`,
-        });
       }
     }
   }, [songId]);
