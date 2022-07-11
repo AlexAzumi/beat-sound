@@ -66,6 +66,10 @@ html, body, #root {
     color: $white;
     cursor: pointer;
   }
+
+  &.active {
+    color: $white;
+  }
 }
 
 .no-cover {

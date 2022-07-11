@@ -8,6 +8,8 @@ import Panel from './components/Panel/Panel';
 import Database from '../main/interfaces/database';
 import Song from '../main/interfaces/song';
 
+import useSortByTitle from './hooks/useSortByTitle';
+
 import renderConfig from './render.config';
 
 import './App.scss';
@@ -15,12 +17,17 @@ import './App.scss';
 const player = new Audio();
 
 const App: FC = () => {
+  // Custom hooks
+  const sortByTitle = useSortByTitle();
+
   const [database, setDatabase] = useState<Database>();
   // Player state
   const [isPlaying, setIsPlaying] = useState(false);
   const [songId, setSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
   const [songsToShow, setSongsToShow] = useState<Song[]>([]);
+  const [isShuffleActive, setIsShouffleActive] = useState(false);
+  const [isRepeatActive, setIsRepeatActive] = useState(false);
   // References
   const oldId = useRef('');
   // Song information
@@ -139,25 +146,7 @@ const App: FC = () => {
    */
   const sortByColumn = useCallback(
     (columnName: string) => {
-      const sortPromise = new Promise<Song[]>((resolve, reject) => {
-        if (!songsToShow) {
-          reject([]);
-        } else {
-          const sortedSongs = songsToShow.sort((a, b) => {
-            if (columnName === 'title') {
-              return a.name < b.name ? -1 : 1;
-            } else {
-              return a.artist < a.artist ? -1 : 1;
-            }
-          });
-
-          resolve(sortedSongs);
-        }
-      });
-
-      sortPromise
-        .then((songs) => setSongsToShow([...songs]))
-        .catch(console.warn);
+      // TODO: Implement proper sorting
     },
     [songsToShow]
   );
@@ -191,26 +180,39 @@ const App: FC = () => {
 
   // Start with sortered songs
   useEffect(() => {
-    const sorteredSongsPromise = new Promise<Song[]>((resolve, reject) => {
-      if (!database) {
-        reject([]);
-      } else {
-        const sorteredSongs = database.songs.sort((a, b) => {
-          if (a.name < b.name) {
-            return -1;
-          } else if (a.name > b.name) {
-            return 1;
-          } else {
-            return 0;
-          }
-        });
-
-        resolve(sorteredSongs);
-      }
-    });
-
-    sorteredSongsPromise.then(setSongsToShow).catch(console.warn);
+    if (database) {
+      sortByTitle(database.songs).then(setSongsToShow);
+    }
   }, [database]);
+
+  // Player events
+  useEffect(() => {
+    const endedSong = () => {
+      if (!database) {
+        return;
+      }
+
+      if (!isShuffleActive) {
+        const currentIndex = database?.songs.findIndex(
+          (item) => item.id === songId
+        );
+
+        if (currentIndex > -1) {
+          const nextIndex = database.songs[currentIndex + 1];
+
+          if (nextIndex) {
+            handlePlaySong(nextIndex.id);
+          }
+        }
+      }
+    };
+
+    player.addEventListener('ended', endedSong);
+
+    return () => {
+      player.removeEventListener('ended', endedSong);
+    };
+  }, [database, songId, isShuffleActive, isRepeatActive]);
 
   if (!database) {
     return null;

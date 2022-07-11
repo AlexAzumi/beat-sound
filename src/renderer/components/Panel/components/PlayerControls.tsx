@@ -5,6 +5,8 @@ import {
   faForwardStep,
   faCirclePause,
   faCirclePlay,
+  faShuffle,
+  faRepeat,
 } from '@fortawesome/free-solid-svg-icons';
 
 interface PlayerControlsProps {
@@ -35,22 +37,24 @@ const PlayerControls: FC<PlayerControlsProps> = ({
   return (
     <>
       <p className="mb-0 me-5">{currentTime}</p>
+      <FontAwesomeIcon className="player-control me-4" icon={faShuffle} />
       <FontAwesomeIcon
-        className="player-control"
+        className="player-control mx-2"
         icon={faBackwardStep}
         size="2x"
       />
       <FontAwesomeIcon
-        className="player-control mx-4"
+        className="player-control mx-2"
         icon={isPlaying ? faCirclePause : faCirclePlay}
         onClick={handleClickPlay}
         size="2x"
       />
       <FontAwesomeIcon
-        className="player-control"
+        className="player-control mx-2"
         icon={faForwardStep}
         size="2x"
       />
+      <FontAwesomeIcon className="player-control ms-4" icon={faRepeat} />
       <p className="mb-0 ms-5">{songDuration}</p>
     </>
   );
