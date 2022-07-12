@@ -252,7 +252,7 @@ const App: FC = () => {
 
         <SongList
           currentSongId={songId}
-          handlePlaySong={() => playNextSong()}
+          handlePlaySong={playNextSong}
           handleSortByColumn={sortByColumn}
           isPlaying={isPlaying}
           songs={songsToShow}
