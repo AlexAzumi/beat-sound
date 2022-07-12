@@ -24,7 +24,7 @@ const App: FC = () => {
   const [songId, setSongId] = useState('');
   const [currentTime, setCurrentTime] = useState(0);
   const [songsToShow, setSongsToShow] = useState<Song[]>([]);
-  const [isShuffleActive, setIsShouffleActive] = useState(false);
+  const [isShuffleActive, setIsShuffleActive] = useState(false);
   const [isRepeatActive, setIsRepeatActive] = useState(false);
   // Custom hooks
   const sortByTitle = useSortByTitle();
