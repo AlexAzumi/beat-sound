@@ -32,6 +32,10 @@ interface PanelProps {
    */
   isShuffleActive: boolean;
   /**
+   * Set to `true` if the repeat option is active
+   */
+  isRepeatActive: boolean;
+  /**
    * Handles the playing/pausing event of a song
    * @param id - Unique id of the song
    */
@@ -50,14 +54,20 @@ interface PanelProps {
    * Handles the click event of the shuffle button
    */
   handleClickShuffle(): void;
+  /**
+   * Handles the click event of the repeat button
+   */
+  handleClickRepeat(): void;
 }
 
 const Panel: FC<PanelProps> = ({
   currentSong,
   currentTime,
+  handleClickRepeat,
   handleClickShuffle,
   handlePlaySong,
   isPlaying,
+  isRepeatActive,
   isShuffleActive,
   onChangeVolume,
   onEndSeeking,
@@ -152,10 +162,12 @@ const Panel: FC<PanelProps> = ({
             <PlayerControls
               currentTime={formatTime(seekPosition || currentTime)}
               handleClickPlay={handleClickPlay}
-              isPlaying={isPlaying}
-              songDuration={formatTime(getSongDuration())}
-              isShuffleActive={isShuffleActive}
+              handleClickRepeat={handleClickRepeat}
               handleClickShuffle={handleClickShuffle}
+              isPlaying={isPlaying}
+              isRepeatActive={isRepeatActive}
+              isShuffleActive={isShuffleActive}
+              songDuration={formatTime(getSongDuration())}
             />
           </Col>
           <Col
@@ -170,7 +182,15 @@ const Panel: FC<PanelProps> = ({
         </Row>
       </Container>
     ),
-    [currentSong, isPlaying, volume, currentTime, seekPosition, isShuffleActive]
+    [
+      currentSong,
+      currentTime,
+      isPlaying,
+      isRepeatActive,
+      isShuffleActive,
+      seekPosition,
+      volume,
+    ]
   );
 };
 

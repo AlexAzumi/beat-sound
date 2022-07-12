@@ -153,9 +153,13 @@ const App: FC = () => {
     const shuffleActive: boolean = JSON.parse(
       localStorage.getItem('isShuffleActive') || 'false'
     );
+    const repeatActive: boolean = JSON.parse(
+      localStorage.getItem('isRepeatActive') || 'false'
+    );
 
     player.volume = initialVolume;
     setIsShuffleActive(shuffleActive);
+    setIsRepeatActive(repeatActive);
   }, []);
 
   // Create progress bar interval (1 second tick)
@@ -212,6 +216,11 @@ const App: FC = () => {
     localStorage.setItem('isShuffleActive', JSON.stringify(isShuffleActive));
   }, [isShuffleActive]);
 
+  // Update `isRepeatActive` flag in `localStorage`
+  useEffect(() => {
+    localStorage.setItem('isRepeatActive', JSON.stringify(isRepeatActive));
+  }, [isRepeatActive]);
+
   if (!database) {
     return null;
   }
@@ -239,9 +248,11 @@ const App: FC = () => {
         <Panel
           currentSong={songData}
           currentTime={currentTime}
+          handleClickRepeat={() => setIsRepeatActive(!isRepeatActive)}
           handleClickShuffle={() => setIsShuffleActive(!isShuffleActive)}
           handlePlaySong={handlePlaySong}
           isPlaying={isPlaying}
+          isRepeatActive={isRepeatActive}
           isShuffleActive={isShuffleActive}
           onChangeVolume={changeVolume}
           onEndSeeking={goToSecond}

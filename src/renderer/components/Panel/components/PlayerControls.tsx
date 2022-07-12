@@ -27,6 +27,10 @@ interface PlayerControlsProps {
    */
   isShuffleActive: boolean;
   /**
+   * Set to `true` if the repeat option is active
+   */
+  isRepeatActive: boolean;
+  /**
    * Handles the click event of the play/pause button
    */
   handleClickPlay(): void;
@@ -34,13 +38,19 @@ interface PlayerControlsProps {
    * Handles the click event of the shuffle button
    */
   handleClickShuffle(): void;
+  /**
+   * Handles the click event of the repeat button
+   */
+  handleClickRepeat(): void;
 }
 
 const PlayerControls: FC<PlayerControlsProps> = ({
   currentTime,
   handleClickPlay,
+  handleClickRepeat,
   handleClickShuffle,
   isPlaying,
+  isRepeatActive,
   isShuffleActive,
   songDuration,
 }) => {
@@ -68,7 +78,11 @@ const PlayerControls: FC<PlayerControlsProps> = ({
         icon={faForwardStep}
         size="2x"
       />
-      <FontAwesomeIcon className="player-control ms-4" icon={faRepeat} />
+      <FontAwesomeIcon
+        className={`player-control ms-4 ${isRepeatActive ? 'active' : ''}`}
+        icon={faRepeat}
+        onClick={handleClickRepeat}
+      />
       <p className="mb-0 ms-5">{songDuration}</p>
     </>
   );
