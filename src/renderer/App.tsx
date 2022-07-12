@@ -146,6 +146,23 @@ const App: FC = () => {
     [songsToShow]
   );
 
+  /**
+   * Plays the next song in playlist
+   */
+  const playNextSong = useCallback(() => {
+    if (!database) {
+      return;
+    }
+
+    const nextSongId = getNextSong(songId, isShuffleActive, isRepeatActive);
+
+    if (nextSongId) {
+      handlePlaySong(nextSongId);
+    } else {
+      setIsPlaying(false);
+    }
+  }, [database, songId]);
+
   // Initial config of the player
   useEffect(() => {
     const initialVolume =
@@ -190,24 +207,10 @@ const App: FC = () => {
 
   // Player events
   useEffect(() => {
-    const endedSong = () => {
-      if (!database) {
-        return;
-      }
-
-      const nextSongId = getNextSong(songId, isShuffleActive, isRepeatActive);
-
-      if (nextSongId) {
-        handlePlaySong(nextSongId);
-      } else {
-        setIsPlaying(false);
-      }
-    };
-
-    player.addEventListener('ended', endedSong);
+    player.addEventListener('ended', playNextSong);
 
     return () => {
-      player.removeEventListener('ended', endedSong);
+      player.removeEventListener('ended', playNextSong);
     };
   }, [database, songId, isShuffleActive, isRepeatActive]);
 
@@ -230,6 +233,7 @@ const App: FC = () => {
       album={`Beat Saber's custom song`}
       artist={songData?.artist}
       artwork={[]} // TODO: Add proper album artwork to the Media Session API
+      onNextTrack={playNextSong}
       onPause={() => handlePlaySong(songId)}
       onPlay={() => handlePlaySong(songId)}
       title={songData?.title}
@@ -248,6 +252,7 @@ const App: FC = () => {
         <Panel
           currentSong={songData}
           currentTime={currentTime}
+          handleClickForwardStep={playNextSong}
           handleClickRepeat={() => setIsRepeatActive(!isRepeatActive)}
           handleClickShuffle={() => setIsShuffleActive(!isShuffleActive)}
           handlePlaySong={handlePlaySong}

@@ -42,10 +42,15 @@ interface PlayerControlsProps {
    * Handles the click event of the repeat button
    */
   handleClickRepeat(): void;
+  /**
+   * Handles the click event of the forward step button
+   */
+  handleClickForwardStep(): void;
 }
 
 const PlayerControls: FC<PlayerControlsProps> = ({
   currentTime,
+  handleClickForwardStep,
   handleClickPlay,
   handleClickRepeat,
   handleClickShuffle,
@@ -76,6 +81,7 @@ const PlayerControls: FC<PlayerControlsProps> = ({
       <FontAwesomeIcon
         className="player-control mx-2"
         icon={faForwardStep}
+        onClick={handleClickForwardStep}
         size="2x"
       />
       <FontAwesomeIcon

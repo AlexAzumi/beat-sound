@@ -22,6 +22,10 @@ const useGetNextSong = (songs: Song[] = []) => {
     isShuffleActive: boolean,
     isRepeatActive: boolean
   ) => {
+    if (lastSongId.length === 0) {
+      return songs[0].id;
+    }
+
     const currentIndex = songs.findIndex((item) => item.id === lastSongId);
 
     // The song was not found
