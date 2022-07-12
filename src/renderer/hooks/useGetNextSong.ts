@@ -16,14 +16,24 @@ const useGetNextSong = (songs: Song[] = []) => {
    * @param lastSongId - Unique id of the last song played
    * @param isShuffleActive - If set to `true`, a random song will be played
    * @param isRepeatActive - If set to `true`, when the song list will be repeated when played all songs
+   * @param playedFromList - If set to `true`, the `remaining songs` list will be reseted
    */
   return (
     lastSongId: string,
     isShuffleActive: boolean,
-    isRepeatActive: boolean
+    isRepeatActive: boolean,
+    playedFromList: boolean
   ) => {
     if (lastSongId.length === 0) {
-      return songs[0].id;
+      if (!isShuffleActive) {
+        return songs[0].id;
+      } else {
+        const randomIndex = Math.floor(
+          Math.random() * remainingSongsIds.current.length
+        );
+
+        return remainingSongsIds.current[randomIndex];
+      }
     }
 
     const currentIndex = songs.findIndex((item) => item.id === lastSongId);
@@ -31,6 +41,10 @@ const useGetNextSong = (songs: Song[] = []) => {
     // The song was not found
     if (currentIndex === -1) {
       return null;
+    } else if (playedFromList) {
+      remainingSongsIds.current = songs.map((item) => item.id);
+
+      return lastSongId;
     }
 
     if (!isShuffleActive && currentIndex + 1 < songs.length) {

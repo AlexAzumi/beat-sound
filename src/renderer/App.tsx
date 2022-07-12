@@ -148,20 +148,29 @@ const App: FC = () => {
 
   /**
    * Plays the next song in playlist
+   * @param playedFromList - Set to `true` if the song has been selected from the song list
    */
-  const playNextSong = useCallback(() => {
-    if (!database) {
-      return;
-    }
+  const playNextSong = useCallback(
+    (id?: string) => {
+      if (!database) {
+        return;
+      }
 
-    const nextSongId = getNextSong(songId, isShuffleActive, isRepeatActive);
+      const nextSongId = getNextSong(
+        id || songId,
+        isShuffleActive,
+        isRepeatActive,
+        !!id
+      );
 
-    if (nextSongId) {
-      handlePlaySong(nextSongId);
-    } else {
-      setIsPlaying(false);
-    }
-  }, [database, songId]);
+      if (nextSongId) {
+        handlePlaySong(nextSongId);
+      } else {
+        setIsPlaying(false);
+      }
+    },
+    [database, songId]
+  );
 
   // Initial config of the player
   useEffect(() => {
@@ -207,10 +216,10 @@ const App: FC = () => {
 
   // Player events
   useEffect(() => {
-    player.addEventListener('ended', playNextSong);
+    player.addEventListener('ended', () => playNextSong());
 
     return () => {
-      player.removeEventListener('ended', playNextSong);
+      player.removeEventListener('ended', () => playNextSong());
     };
   }, [database, songId, isShuffleActive, isRepeatActive]);
 
@@ -233,7 +242,7 @@ const App: FC = () => {
       album={`Beat Saber's custom song`}
       artist={songData?.artist}
       artwork={[]} // TODO: Add proper album artwork to the Media Session API
-      onNextTrack={playNextSong}
+      onNextTrack={() => playNextSong()}
       onPause={() => handlePlaySong(songId)}
       onPlay={() => handlePlaySong(songId)}
       title={songData?.title}
@@ -243,7 +252,7 @@ const App: FC = () => {
 
         <SongList
           currentSongId={songId}
-          handlePlaySong={handlePlaySong}
+          handlePlaySong={() => playNextSong()}
           handleSortByColumn={sortByColumn}
           isPlaying={isPlaying}
           songs={songsToShow}
@@ -252,7 +261,7 @@ const App: FC = () => {
         <Panel
           currentSong={songData}
           currentTime={currentTime}
-          handleClickForwardStep={playNextSong}
+          handleClickForwardStep={() => playNextSong()}
           handleClickRepeat={() => setIsRepeatActive(!isRepeatActive)}
           handleClickShuffle={() => setIsShuffleActive(!isShuffleActive)}
           handlePlaySong={handlePlaySong}
