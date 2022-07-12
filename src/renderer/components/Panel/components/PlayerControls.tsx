@@ -19,25 +19,39 @@ interface PlayerControlsProps {
    */
   songDuration: string;
   /**
-   * Set to `true` is there is a song that is playing
+   * Set to `true` if there is a song currently playing
    */
   isPlaying: boolean;
   /**
-   * Handles the click of the play/pause button
+   * Set to `true` if the shuffle option is active
+   */
+  isShuffleActive: boolean;
+  /**
+   * Handles the click event of the play/pause button
    */
   handleClickPlay(): void;
+  /**
+   * Handles the click event of the shuffle button
+   */
+  handleClickShuffle(): void;
 }
 
 const PlayerControls: FC<PlayerControlsProps> = ({
   currentTime,
   handleClickPlay,
+  handleClickShuffle,
   isPlaying,
+  isShuffleActive,
   songDuration,
 }) => {
   return (
     <>
       <p className="mb-0 me-5">{currentTime}</p>
-      <FontAwesomeIcon className="player-control me-4" icon={faShuffle} />
+      <FontAwesomeIcon
+        className={`player-control me-4 ${isShuffleActive ? 'active' : ''}`}
+        icon={faShuffle}
+        onClick={handleClickShuffle}
+      />
       <FontAwesomeIcon
         className="player-control mx-2"
         icon={faBackwardStep}

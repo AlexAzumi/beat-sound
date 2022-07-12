@@ -28,6 +28,10 @@ interface PanelProps {
    */
   volume: number;
   /**
+   * Set to `true` if the shuffle option is active
+   */
+  isShuffleActive: boolean;
+  /**
    * Handles the playing/pausing event of a song
    * @param id - Unique id of the song
    */
@@ -42,13 +46,19 @@ interface PanelProps {
    * @param time - New time
    */
   onEndSeeking(time: number): void;
+  /**
+   * Handles the click event of the shuffle button
+   */
+  handleClickShuffle(): void;
 }
 
 const Panel: FC<PanelProps> = ({
   currentSong,
   currentTime,
+  handleClickShuffle,
   handlePlaySong,
   isPlaying,
+  isShuffleActive,
   onChangeVolume,
   onEndSeeking,
   volume,
@@ -144,6 +154,8 @@ const Panel: FC<PanelProps> = ({
               handleClickPlay={handleClickPlay}
               isPlaying={isPlaying}
               songDuration={formatTime(getSongDuration())}
+              isShuffleActive={isShuffleActive}
+              handleClickShuffle={handleClickShuffle}
             />
           </Col>
           <Col
@@ -158,7 +170,7 @@ const Panel: FC<PanelProps> = ({
         </Row>
       </Container>
     ),
-    [currentSong, isPlaying, volume, currentTime, seekPosition]
+    [currentSong, isPlaying, volume, currentTime, seekPosition, isShuffleActive]
   );
 };
 
