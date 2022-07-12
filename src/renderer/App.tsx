@@ -9,6 +9,7 @@ import Database from '../main/interfaces/database';
 import Song from '../main/interfaces/song';
 
 import useSortByTitle from './hooks/useSortByTitle';
+import useGetNextSong from './hooks/useGetNextSong';
 
 import renderConfig from './render.config';
 
@@ -17,9 +18,6 @@ import './App.scss';
 const player = new Audio();
 
 const App: FC = () => {
-  // Custom hooks
-  const sortByTitle = useSortByTitle();
-
   const [database, setDatabase] = useState<Database>();
   // Player state
   const [isPlaying, setIsPlaying] = useState(false);
@@ -28,6 +26,9 @@ const App: FC = () => {
   const [songsToShow, setSongsToShow] = useState<Song[]>([]);
   const [isShuffleActive, setIsShouffleActive] = useState(false);
   const [isRepeatActive, setIsRepeatActive] = useState(false);
+  // Custom hooks
+  const sortByTitle = useSortByTitle();
+  const getNextSong = useGetNextSong(database?.songs);
   // References
   const oldId = useRef('');
   // Song information
@@ -186,18 +187,12 @@ const App: FC = () => {
         return;
       }
 
-      if (!isShuffleActive) {
-        const currentIndex = database?.songs.findIndex(
-          (item) => item.id === songId
-        );
+      const nextSongId = getNextSong(songId, isShuffleActive, isRepeatActive);
 
-        if (currentIndex > -1) {
-          const nextIndex = database.songs[currentIndex + 1];
-
-          if (nextIndex) {
-            handlePlaySong(nextIndex.id);
-          }
-        }
+      if (nextSongId) {
+        handlePlaySong(nextSongId);
+      } else {
+        setIsPlaying(false);
       }
     };
 
