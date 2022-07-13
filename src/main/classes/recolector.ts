@@ -48,10 +48,24 @@ class Recolector {
    * Gets all data from the existing database
    * @returns All database content
    */
-  static getDatabase(): Database {
+  static async getDatabase(): Promise<Database> {
     const file = fs.readFileSync(AppConfig.DATABASE_PATH);
+    const data = JSON.parse(file.toString()) as Database;
 
-    return JSON.parse(file.toString());
+    const customSongsPath = path.join(
+      data.gamePath,
+      AppConfig.GAME_DATA_FOLDER,
+      AppConfig.CUSTOM_LEVELS_FOLDER
+    );
+
+    const folderStats = fs.statSync(customSongsPath);
+
+    // Check if the custom songs folder was updated recently
+    if (folderStats.mtime.getTime() > new Date(data.lastUpdate).getTime()) {
+      return await this.createDatabase(data.gamePath);
+    }
+
+    return data;
   }
 
   /**
@@ -71,6 +85,7 @@ class Recolector {
     const songPromises: Promise<void>[] = [];
     const database: Database = {
       gamePath,
+      lastUpdate: new Date().toISOString(),
       songs: [],
     };
 

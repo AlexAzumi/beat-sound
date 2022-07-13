@@ -146,7 +146,7 @@ app
 
     // Check if the database is already created
     if (Recolector.checkIfDatabaseExists()) {
-      const database = Recolector.getDatabase();
+      const database = await Recolector.getDatabase();
       // Create the main window
       createWindow(database);
     } else {
