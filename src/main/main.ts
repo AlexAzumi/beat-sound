@@ -20,6 +20,8 @@ import IpcArgs from './interfaces/ipcArgs';
 
 import Recolector from './classes/recolector';
 
+import AppConfig from '../config/app.config';
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -35,6 +37,10 @@ ipcMain.on('main-channel', async (event, args: IpcArgs[]) => {
 
   if (data.action === 'reload') {
     mainWindow?.reload();
+  } else if (data.action === 'open-profile') {
+    shell.openExternal(AppConfig.PROFILE_URL);
+  } else if (data.action === 'open-repository') {
+    shell.openExternal(AppConfig.REPOSITORY_URL);
   }
 });
 

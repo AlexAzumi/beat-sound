@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useCallback } from 'react';
 import { Badge, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +18,27 @@ interface AboutProps {
 }
 
 const About: FC<AboutProps> = ({ showModal, onHide }) => {
+  /**
+   * Opens my GitHub profile in the user's default browser
+   */
+  const handleClickProfile = useCallback(() => {
+    window.electron.ipcRenderer.sendMessage('main-channel', [
+      { action: 'open-profile', payload: null },
+    ]);
+  }, []);
+
+  /**
+   * Opens the project repository page on GitHub using the user's default browser
+   */
+  const handleClickRepository = useCallback(() => {
+    window.electron.ipcRenderer.sendMessage('main-channel', [
+      {
+        action: 'open-repository',
+        payload: null,
+      },
+    ]);
+  }, []);
+
   return (
     <Modal
       centered={true}
@@ -46,11 +67,13 @@ const About: FC<AboutProps> = ({ showModal, onHide }) => {
           <FontAwesomeIcon
             className="about-icon me-3"
             icon={faCircleUser}
+            onClick={handleClickProfile}
             size="2x"
           />
           <FontAwesomeIcon
             className="about-icon me-3"
             icon={faGithub}
+            onClick={handleClickRepository}
             size="2x"
           />
         </div>
