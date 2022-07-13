@@ -279,6 +279,7 @@ const App: FC = () => {
       onNextTrack={() => playNextSong()}
       onPause={() => handlePlaySong(songId)}
       onPlay={() => handlePlaySong(songId)}
+      onPreviousTrack={() => playPreviousSong()}
       title={songData?.title}
     >
       <div className="d-flex flex-column vh-100 px-0">
