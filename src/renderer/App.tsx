@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import MediaSessionWrapper from '@mebtte/react-media-session';
 
-import Appbar from './components/Appbar/AppBar';
+import Appbar from './components/Appbar/Appbar';
 import SongList from './components/SongList/SongList';
 import Panel from './components/Panel/Panel';
 
