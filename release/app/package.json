@@ -1,12 +1,12 @@
 {
-  "name": "electron-react-boilerplate",
-  "version": "4.6.0",
-  "description": "A foundation for scalable desktop apps",
+  "name": "beat-saber",
+  "version": "0.1.0",
+  "description": "An open source media player made for those who wants to listen their favorite songs from a modded Beat Saber experience",
   "license": "MIT",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://github.com/electron-react-boilerplate"
+    "name": "AlexAzumi",
+    "email": "alejandro-hdez@outlook.com",
+    "url": "https://github.com/AlexAzumi"
   },
   "main": "./dist/main/main.js",
   "scripts": {

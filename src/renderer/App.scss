@@ -128,4 +128,13 @@ html, body, #root {
   }
 }
 
+.about-icon {
+  color: $muted;
+
+  &:hover {
+    color: $dark;
+    cursor: pointer;
+  }
+}
+
 @import "~bootstrap/scss/bootstrap";

@@ -31,10 +31,12 @@ export default class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.on('main-channel', async (event, args: IpcArgs[]) => {
-  const firstArg = args[0];
+  const data = args[0];
 
-  if (firstArg.action === 'reload') {
+  if (data.action === 'reload') {
     mainWindow?.reload();
+  } else if (data.action === 'get-version') {
+    event.reply('main-channel', app.getVersion());
   }
 });
 
