@@ -176,7 +176,7 @@ const App: FC = () => {
         setIsPlaying(false);
       }
     },
-    [database, songId]
+    [database, songId, isShuffleActive, isRepeatActive]
   );
 
   /**
@@ -204,7 +204,7 @@ const App: FC = () => {
         setIsPlaying(false);
       }
     }
-  }, [database, songId, currentTime]);
+  }, [database, songId, currentTime, isShuffleActive, isRepeatActive]);
 
   // Initial config of the player
   useEffect(() => {
