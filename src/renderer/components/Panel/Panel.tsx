@@ -62,11 +62,16 @@ interface PanelProps {
    * Handles the click event of the forward step button
    */
   handleClickForwardStep(): void;
+  /**
+   * Handles the click event of the backward step button
+   */
+  handleClickBackwardStep(): void;
 }
 
 const Panel: FC<PanelProps> = ({
   currentSong,
   currentTime,
+  handleClickBackwardStep,
   handleClickForwardStep,
   handleClickRepeat,
   handleClickShuffle,
@@ -166,6 +171,7 @@ const Panel: FC<PanelProps> = ({
           >
             <PlayerControls
               currentTime={formatTime(seekPosition || currentTime)}
+              handleClickBackwardStep={handleClickBackwardStep}
               handleClickForwardStep={handleClickForwardStep}
               handleClickPlay={handleClickPlay}
               handleClickRepeat={handleClickRepeat}

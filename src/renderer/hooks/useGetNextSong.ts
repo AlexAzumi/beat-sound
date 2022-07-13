@@ -4,6 +4,7 @@ import Song from '../../main/interfaces/song';
 
 const useGetNextSong = (songs: Song[] = []) => {
   const remainingSongsIds = useRef<string[]>([]);
+  const previousSongsIds = useRef<string[]>([]);
 
   useEffect(() => {
     if (songs) {
@@ -17,12 +18,14 @@ const useGetNextSong = (songs: Song[] = []) => {
    * @param isShuffleActive - If set to `true`, a random song will be played
    * @param isRepeatActive - If set to `true`, when the song list will be repeated when played all songs
    * @param playedFromList - If set to `true`, the `remaining songs` list will be reseted
+   * @param playPreviousSong - If set to `true`, the previous song will be returned, if there's no song, the same one will be returned
    */
   return (
     lastSongId: string,
     isShuffleActive: boolean,
     isRepeatActive: boolean,
-    playedFromList: boolean
+    playedFromList: boolean,
+    playPreviousSong?: boolean
   ) => {
     if (lastSongId.length === 0) {
       if (!isShuffleActive) {
@@ -43,9 +46,23 @@ const useGetNextSong = (songs: Song[] = []) => {
       return null;
     } else if (playedFromList) {
       remainingSongsIds.current = songs.map((item) => item.id);
+      previousSongsIds.current = [];
 
       return lastSongId;
     }
+
+    if (playPreviousSong) {
+      const previousSong = previousSongsIds.current.pop();
+
+      if (previousSong) {
+        return previousSong;
+      }
+
+      return lastSongId;
+    }
+
+    // Add current song to the previously played songs list
+    previousSongsIds.current.push(lastSongId);
 
     if (!isShuffleActive && currentIndex + 1 < songs.length) {
       return songs[currentIndex + 1].id;

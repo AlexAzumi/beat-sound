@@ -43,7 +43,14 @@ const App: FC = () => {
    * Handles the event of playing/pausing a song
    */
   const handlePlaySong = useCallback(
-    (id: string) => {
+    (id: string, playAgain?: boolean) => {
+      if (playAgain) {
+        player.currentTime = 0;
+        setCurrentTime(0);
+
+        return;
+      }
+
       // Check if the selected song is the same
       if (oldId.current === id) {
         if (!isPlaying) {
@@ -172,6 +179,33 @@ const App: FC = () => {
     [database, songId]
   );
 
+  /**
+   * Plays the previous song in playlist
+   */
+  const playPreviousSong = useCallback(() => {
+    if (!database) {
+      return;
+    }
+
+    if (currentTime > 3) {
+      handlePlaySong(songId, true);
+    } else {
+      const previusSongId = getNextSong(
+        songId,
+        isShuffleActive,
+        isRepeatActive,
+        false,
+        true
+      );
+
+      if (previusSongId) {
+        handlePlaySong(previusSongId, songId === previusSongId);
+      } else {
+        setIsPlaying(false);
+      }
+    }
+  }, [database, songId, currentTime]);
+
   // Initial config of the player
   useEffect(() => {
     const initialVolume =
@@ -261,6 +295,7 @@ const App: FC = () => {
         <Panel
           currentSong={songData}
           currentTime={currentTime}
+          handleClickBackwardStep={playPreviousSong}
           handleClickForwardStep={() => playNextSong()}
           handleClickRepeat={() => setIsRepeatActive(!isRepeatActive)}
           handleClickShuffle={() => setIsShuffleActive(!isShuffleActive)}
