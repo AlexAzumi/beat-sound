@@ -1,15 +1,9 @@
 import { FC } from 'react';
 import { Col, Row } from 'react-bootstrap';
 
-interface ListHeaderProps {
-  /**
-   * Handles the click on a column title
-   * @param columnName - Name of the column
-   */
-  handleSortByColumn(columnName: string): void;
-}
+interface ListHeaderProps {}
 
-const ListHeader: FC<ListHeaderProps> = ({ handleSortByColumn }) => {
+const ListHeader: FC<ListHeaderProps> = () => {
   // TODO: Implement proper column sorting (normal and reverse)
 
   return (
@@ -18,18 +12,8 @@ const ListHeader: FC<ListHeaderProps> = ({ handleSortByColumn }) => {
         className="d-flex align-items-center justify-content-center"
         xs={1}
       ></Col>
-      <Col
-        className="d-flex align-items-center fw-bold"
-        onClick={() => handleSortByColumn('title')}
-      >
-        Title
-      </Col>
-      <Col
-        className="d-flex align-items-center fw-bold"
-        onClick={() => handleSortByColumn('artist')}
-      >
-        Artist
-      </Col>
+      <Col className="d-flex align-items-center fw-bold">Title</Col>
+      <Col className="d-flex align-items-center fw-bold">Artist</Col>
       <Col className="d-flex align-items-center fw-bold" xs={1}>
         Duration
       </Col>

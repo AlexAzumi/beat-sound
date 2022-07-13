@@ -144,16 +144,6 @@ const App: FC = () => {
   );
 
   /**
-   * Sorts the songs by the selected column
-   */
-  const sortByColumn = useCallback(
-    (columnName: string) => {
-      // TODO: Implement proper sorting
-    },
-    [songsToShow]
-  );
-
-  /**
    * Plays the next song in playlist
    * @param playedFromList - Set to `true` if the song has been selected from the song list
    */
@@ -288,7 +278,6 @@ const App: FC = () => {
         <SongList
           currentSongId={songId}
           handlePlaySong={playNextSong}
-          handleSortByColumn={sortByColumn}
           isPlaying={isPlaying}
           songs={songsToShow}
         />
