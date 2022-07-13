@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC } from 'react';
 import { Badge, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleInfo, faCircleUser } from '@fortawesome/free-solid-svg-icons';
@@ -18,16 +18,6 @@ interface AboutProps {
 }
 
 const About: FC<AboutProps> = ({ showModal, onHide }) => {
-  useEffect(() => {
-    window.electron.ipcRenderer.sendMessage('main-channel', [
-      { action: 'get-version', payload: null },
-    ]);
-
-    window.electron.ipcRenderer.once('main-channel', (arg) => {
-      console.log(arg);
-    });
-  }, []);
-
   return (
     <Modal
       centered={true}

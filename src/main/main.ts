@@ -35,8 +35,6 @@ ipcMain.on('main-channel', async (event, args: IpcArgs[]) => {
 
   if (data.action === 'reload') {
     mainWindow?.reload();
-  } else if (data.action === 'get-version') {
-    event.reply('main-channel', app.getVersion());
   }
 });
 
