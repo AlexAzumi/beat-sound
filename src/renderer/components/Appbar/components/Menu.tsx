@@ -25,19 +25,19 @@ const Menu: FC<MenuProps> = ({ showAboutModal }) => {
         Home
         <ul className="submenu">
           <li className="submenu-item px-3 py-2" onClick={handleRefreshApp}>
-            Reload app
+            Reload application
           </li>
-          <li className="submenu-item px-3 py-2">Reload song list</li>
-          <li className="submenu-item px-3 py-2">Update instalation folder</li>
+          {/* <li className="submenu-item px-3 py-2">Reload song list</li>
+          <li className="submenu-item px-3 py-2">Update instalation folder</li> */}
         </ul>
       </li>
-      <li className="menu-item px-3 py-2">
+      {/* <li className="menu-item px-3 py-2">
         Language
         <ul className="submenu">
           <li className="submenu-item px-3 py-2">English</li>
           <li className="submenu-item px-3 py-2">Spanish</li>
         </ul>
-      </li>
+      </li> */}
       <li className="menu-item px-3 py-2">
         Help
         <ul className="submenu">
