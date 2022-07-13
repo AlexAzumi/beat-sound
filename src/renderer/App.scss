@@ -6,7 +6,8 @@ $hover: #DADADA;
 
 $theme-colors: (
   "primary": $primary,
-  "dark": $dark
+  "dark": $dark,
+  "muted": $muted
 );
 
 @font-face {
@@ -117,6 +118,13 @@ html, body, #root {
         }
       }
     }
+  }
+}
+
+.search-box-container {
+  .search-box {
+    border-style: solid;
+    outline-color: $primary;
   }
 }
 

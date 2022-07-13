@@ -1,5 +1,4 @@
 import { FC } from 'react';
-
 interface SearchBarProps {
   /**
    * Handles the update of the text on the search input
@@ -10,9 +9,9 @@ interface SearchBarProps {
 
 const SearchBar: FC<SearchBarProps> = ({ handleSearchSong }) => {
   return (
-    <div className="d-flex my-2 ms-auto me-2">
+    <div className="search-box-container d-flex my-2 ms-auto me-2">
       <input
-        className="rounded-0 border-1 border-primary shadow px-3 py-1"
+        className="search-box rounded-pill border-2 border-muted shadow px-4 py-1"
         onChange={(event) =>
           handleSearchSong(event.currentTarget.value.toLocaleLowerCase().trim())
         }
