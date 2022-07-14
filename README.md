@@ -1,3 +1,3 @@
-# Beat Sound v2
+# Beat Sound
 
 More information needed

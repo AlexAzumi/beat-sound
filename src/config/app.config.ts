@@ -45,7 +45,7 @@ class AppConfig {
   /**
    * Link to the GitHub repository
    */
-  static REPOSITORY_URL = 'https://github.com/AlexAzumi/beat-sound-v2';
+  static REPOSITORY_URL = 'https://github.com/AlexAzumi/beat-sound';
 }
 
 export default AppConfig;

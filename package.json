@@ -192,7 +192,7 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "BeatSound",
+    "productName": "Beat Sound",
     "appId": "live.alexazumi.beatsound",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
@@ -252,7 +252,7 @@
     "publish": {
       "provider": "github",
       "owner": "alexazumi",
-      "repo": "beat-sound-v2"
+      "repo": "beat-sound"
     }
   },
   "collective": {
